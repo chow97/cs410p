@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Run with cc",
+        "type": "shell",
+        "program": "/usr/bin/cc",
+        "args": [
+          "filename",
+          "-I/usr/X11R6/include",
+          "-L/usr/X11R6/lib",
+          "-lm",
+          "-lX11"
+        ],
+        "cwd": "/path/to/working/directory"
+      }
+    ]
+  }
