@@ -56,12 +56,12 @@ note : the 'X' in -X11 is capitalized
 #include  "string_builder.c"
 
 int strleng = 2000000;
-double angle = 30.0;
+double angle = 60.0;
 double angle_current = 0;
-double length = 5.0;
+double length = 25.0;
 double x_value, y_value;
-double x_current = 50.0;
-double y_current = 50.0;
+double x_current = 300.0;
+double y_current = 300.0;
 void rotate(double a);
 void step();
 void values_reset();
@@ -72,9 +72,9 @@ void negative_rot() { angle_current -= angle; };
 int main()
 {
    char str [strleng];
-//   printf("Define the turtle route: ");
-//   scanf("%s", str);
    string_builder(str);
+   // if you want to use external file, comment out the line above and uncomment the line below:
+//   scanf("%s", str); 
 
    int    swidth, sheight ;
    double lowleftx, lowlefty, width, height ;
