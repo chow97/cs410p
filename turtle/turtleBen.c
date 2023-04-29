@@ -53,14 +53,15 @@ note : the 'X' in -X11 is capitalized
 
 
 #include  "FPToolkit.c"
+#include  "string_builder.c"
 
-int strleng = 100000;
-double angle = 90.0;
+int strleng = 2000000;
+double angle = 30.0;
 double angle_current = 0;
-double length = 20.0;
+double length = 5.0;
 double x_value, y_value;
-double x_current = 200.0;
-double y_current = 200.0;
+double x_current = 50.0;
+double y_current = 50.0;
 void rotate(double a);
 void step();
 void values_reset();
@@ -70,10 +71,10 @@ void negative_rot() { angle_current -= angle; };
 
 int main()
 {
-   /* 
-   printf("Define the turtle route: ");
-   scanf("%s", str);
-   */
+   char str [strleng];
+//   printf("Define the turtle route: ");
+//   scanf("%s", str);
+   string_builder(str);
 
    int    swidth, sheight ;
    double lowleftx, lowlefty, width, height ;
@@ -104,21 +105,15 @@ int main()
    
    int i = 0;
  
-   char str [strleng];
+   // char str [strleng];
    while (str[i] != '\0' && i < strleng) {
-   	if (str[i] == 'f') step();
-	else if (str[i] == '+') angle += angle;
-        else angle -= angle;
+   	if (str[i] >= 'A' && str[i] <= 'Z') step();
+	else if (str[i] == '+') positive_rot();
+        else negative_rot();
 	++i;
    }	
    
 
-   // printf("%f\n", angle_current);
-   step();
-   positive_rot();
-   // printf("%f\n", angle_current);
-   step();
-   
 
    int key ;   
    key =  G_wait_key() ; // pause so user can see results
@@ -128,15 +123,8 @@ int main()
 }
 
 void rotate(double a) {
-   double temp;
-   // temp = x_value*cos(a) - y_value*sin(a) ;
-   // y_value = x_value*sin(a) + y_value*cos(a) ;
-   // x_value = temp ;
-   temp = length*cos(a*M_PI/180);
+   x_value = length*cos(a*M_PI/180);
    y_value = length*sin(a*M_PI/180);
-   x_value = temp ;
-   printf("x_value=%f",x_value);
-   printf("y_value=%f\n",y_value);
 }
 
 void step() {
@@ -145,7 +133,6 @@ void step() {
    G_line (x_current, y_current,  x_current+ x_value, y_current + y_value);
    x_current += x_value;
    y_current += y_value;
-   // printf("y_value=%f\n",y_value);
    values_reset();
 }
 
