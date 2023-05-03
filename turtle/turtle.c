@@ -6,10 +6,10 @@ int strleng = 2000000;
 // set angle to move
 double angle = 22.5;
 
-double angle_current = 0;
+double angle_current = 90.0;
 
 // unit to draw
-double length = 10.0;
+double length = 5.0;
 double x_value, y_value;
 // start drawing from this point
 double x_current = 100.0;
@@ -66,23 +66,25 @@ int main()
 	// ++i;
    // }	
    struct stack* stack = createStack(100);
-   struct bracket point;
    int i = 0;
    while (str[i] != '\0' && i < strleng) {
    if (str[i] >= 'A' && str[i] <= 'Z') step();
    else if (str[i] == '+') positive_rot();
    else if (str[i] == '-') negative_rot();
    else if (str[i] == '[') {
+      struct bracket point;
       point.angle = angle_current;
       point.x = x_current;
       point.y = y_current;
       push(stack, point);
    }
    else if (str[i] == ']') {
-      pop(stack);
+      struct bracket point;
+      point = peek(stack);
       angle_current = point.angle;
       x_current = point.x;
       y_current = point.y;
+      pop(stack);
    }
    ++i;
    }	
