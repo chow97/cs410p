@@ -2,18 +2,19 @@
 #include  "string_builder.c"
 #include "stack.c"
 
-struct bracket{
-	double angle;
-	double x, y;
-};
-
 int strleng = 2000000;
-double angle = 60.0;
+// set angle to move
+double angle = 22.5;
+
 double angle_current = 0;
-double length = 25.0;
+
+// unit to draw
+double length = 10.0;
 double x_value, y_value;
-double x_current = 300.0;
-double y_current = 300.0;
+// start drawing from this point
+double x_current = 100.0;
+double y_current = 50.0;
+
 void rotate(double a);
 void step();
 void values_reset();
@@ -34,7 +35,6 @@ int main()
    double numxy ;
    double a[20], b[20] ;
    double numab ;
-   bracket point;
 
    
    // must do this before you do 'almost' any other graphical tasks 
@@ -56,26 +56,36 @@ int main()
 
    G_rgb(1,0,0) ;
    
-    int i = 0;
-    while (str[i] != '\0' && i < strleng) {
-    if (str[i] >= 'A' && str[i] <= 'Z') step();
-    else if (str[i] == '+') positive_rot();
-    else if (str[i] == '-') negative_rot();
-    else if (str[i] == '[') {
-        point.angle = angle_current;
-        point.x = x_current;
-        point.y = y_current;
-        push(&stack, &point);
-    }
-    else if (str[i] == ']') {
-        pop(&stack, &point);
-        angle_current = point.angle;
-        x_current = point.x;
-        y_current = point.y;
-    }
-    ++i;
-    }	
-   
+   // int i = 0;
+ 
+   // // char str [strleng];
+   // while (str[i] != '\0' && i < strleng) {
+   // 	if (str[i] >= 'A' && str[i] <= 'Z') step();
+	// else if (str[i] == '+') positive_rot();
+   //      else negative_rot();
+	// ++i;
+   // }	
+   struct stack* stack = createStack(100);
+   struct bracket point;
+   int i = 0;
+   while (str[i] != '\0' && i < strleng) {
+   if (str[i] >= 'A' && str[i] <= 'Z') step();
+   else if (str[i] == '+') positive_rot();
+   else if (str[i] == '-') negative_rot();
+   else if (str[i] == '[') {
+      point.angle = angle_current;
+      point.x = x_current;
+      point.y = y_current;
+      push(stack, point);
+   }
+   else if (str[i] == ']') {
+      pop(stack);
+      angle_current = point.angle;
+      x_current = point.x;
+      y_current = point.y;
+   }
+   ++i;
+   }	
 
 
    int key ;   
@@ -103,24 +113,3 @@ void values_reset() {
    x_value = length;
    y_value = 0;
 }
-
-
-    int i = 0;
-    while (str[i] != '\0' && i < strleng) {
-    if (str[i] >= 'A' && str[i] <= 'Z') step();
-    else if (str[i] == '+') positive_rot();
-    else if (str[i] == '-') negative_rot();
-    else if (str[i] == '[') {
-        point.angle = angle_current;
-        point.x = x_current;
-        point.y = y_current;
-        push(&stack, &point);
-    }
-    else if (str[i] == ']') {
-        pop(&stack, &point);
-        angle_current = point.angle;
-        x_current = point.x;
-        y_current = point.y;
-    }
-    ++i;
-    }	
