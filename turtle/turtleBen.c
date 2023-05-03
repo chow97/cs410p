@@ -64,9 +64,7 @@ int main()
    G_rgb(1,0,0) ;
    
    length = auto_placer(str); 
-   x_current = 100;
-   y_current = 50;
-   printf("x: %f, y: %f, scale: %f", x_current, y_current, length);
+   // printf("x: %f, y: %f, scale: %f", x_current, y_current, length);
    draw(str); 
 
 
@@ -110,10 +108,8 @@ double auto_placer(char str []) {
    // the scale:
    double scale;
    if (image_height >= image_width) 
-      // scale = image_height/(canvas_size-(margin*2));
       scale = (canvas_size-(margin*2))/image_height;
    else
-      // scale = image_width/(canvas_size-(margin*2));
       scale = (canvas_size-(margin*2))/image_width;
        
    // finding the center of mass
@@ -121,8 +117,8 @@ double auto_placer(char str []) {
    double y_center = (top_y + bot_y)/2;
    
    // setting starting point based on scale and center of mass:
-   x_current = (canvas_size/2) - x_center;
-   y_current = (canvas_size/2) - y_center;
+   x_current = (canvas_size/2) - x_center*scale;
+   y_current = (canvas_size/2) - y_center*scale;
 
    return scale;
     
