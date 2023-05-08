@@ -13,6 +13,11 @@ void rule1 ();
 void rule2 ();
 void rule3 ();
 void rule4 ();
+void rule5 ();
+void rule6 ();
+void rule7 ();
+void rule8 ();
+void rule9 ();
 
 int canvas_size = 800;
 int swidth;
@@ -35,11 +40,15 @@ int main() {
    
    for (int i = 0; i < 1000000; ++i) {
       double n = drand48();
-      if (n < 0.25) rule1();
-      else if (n > 0.25 && n < 0.5) rule2();
-      else if (n > 0.5 && n < 0.75) rule3();
-
-      else rule4();
+      if (n < 0.11) rule1();
+      else if (n > 0.11 && n < 0.22) rule2();
+      else if (n > 0.22 && n < 0.33) rule3();
+      else if (n > 0.33 && n < 0.44) rule4();
+      else if (n > 0.44 && n < 0.55) rule5();
+      else if (n > 0.55 && n < 0.66) rule6();
+      else if (n > 0.66 && n < 0.77) rule7();
+      else if (n > 0.77 && n < 0.88) rule8();
+      else rule9();
    }
 
    int key;
@@ -57,19 +66,48 @@ void rule1 () {
 }
 
 void rule2 () {
-   x = x/2.0 + 0.5;
-   y = y/2.0 + 0.5;
-   G_point (swidth*x, sheight*y);
+//   x = x/2.0 + 1/3;
+//   y = y/2.0 + 1/3;
+//   G_point (swidth*x, sheight*y);
 }
 
 void rule3 () {
-   x = x/2.0 + 0.5;
-   y = y/2.0;
+   x = x/2.0 + 2/3;
+   y = y/2.0 + 2/3;
    G_point (swidth*x, sheight*y);
 }
 
 void rule4 () {
+   x = x/2.0 + 1/3;
+   y = y/2.0;
+   G_point (swidth*x, sheight*y);
+}
+
+void rule5 () {
+   x = x/2.0 + 2/3;
+   y = y/2.0;
+   G_point (swidth*x, sheight*y);
+}
+
+void rule6 () {
    x = x/2.0;
-   y = y/2.0 + 0.5;
+   y = y/2.0 + 1/3;
+   G_point (swidth*x, sheight*y);
+}
+
+void rule7 () {
+   x = x/2.0;
+   y = y/2.0 + 2/3;
+   G_point (swidth*x, sheight*y);
+}
+
+void rule8 () {
+   x = x/2.0 + 1/3;
+   y = y/2.0 + 2/3;
+   G_point (swidth*x, sheight*y);
+}
+void rule9 () {
+   x = x/2.0 + 2/3;
+   y = y/2.0 + 1/3;
    G_point (swidth*x, sheight*y);
 }
