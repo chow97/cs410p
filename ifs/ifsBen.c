@@ -14,7 +14,7 @@ void rule2 ();
 int canvas_size = 800;
 int swidth;
 int sheight;
-double x = 0.3;
+double x = 0.5;
 double y = 0.5;
 
 #include  "FPToolkit.c"
