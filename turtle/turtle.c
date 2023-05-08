@@ -9,7 +9,7 @@ double angle = 22.5;
 double angle_current = 90.0;
 
 // unit to draw
-double length = 5.0;
+double length = 10.0;
 double x_value, y_value;
 // start drawing from this point
 double x_current = 100.0;
