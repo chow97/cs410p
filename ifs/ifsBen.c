@@ -11,10 +11,13 @@ note : the 'X' in -X11 is capitalized
 
 void rule1 ();
 void rule2 ();
+void rule3 ();
+void rule4 ();
+
 int canvas_size = 800;
 int swidth;
 int sheight;
-double x = 0.5;
+double x = 0.3;
 double y = 0.5;
 
 #include  "FPToolkit.c"
@@ -32,8 +35,11 @@ int main() {
    
    for (int i = 0; i < 1000000; ++i) {
       double n = drand48();
-      if (n > 0.5) rule1();
-      else rule2();
+      if (n < 0.25) rule1();
+      else if (n > 0.25 && n < 0.5) rule2();
+      else if (n > 0.5 && n < 0.75) rule3();
+
+      else rule4();
    }
 
    int key;
@@ -45,13 +51,25 @@ int main() {
 }
 
 void rule1 () {
-   x = x/2;
-   y = y/2;
+   x = x/2.0;
+   y = y/2.0;
    G_point (swidth*x, sheight*y);
 }
 
 void rule2 () {
-   x = x/2 + 0.5;
-   y = y/2 + 0.5;
+   x = x/2.0 + 0.5;
+   y = y/2.0 + 0.5;
+   G_point (swidth*x, sheight*y);
+}
+
+void rule3 () {
+   x = x/2.0 + 0.5;
+   y = y/2.0;
+   G_point (swidth*x, sheight*y);
+}
+
+void rule4 () {
+   x = x/2.0;
+   y = y/2.0 + 0.5;
    G_point (swidth*x, sheight*y);
 }
