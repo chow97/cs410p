@@ -18,14 +18,14 @@ int sheight;
 #include  "FPToolkit.c"
 
 int main() {
+   int swidth = canvas_size;
+   int sheight = canvas_size;
    G_init_graphics(swidth, sheight);
    G_rgb (0.3, 0.3, 0.3);
    G_clear();
 
    G_rgb(0.0, 1.0, 0.0);
     
-   int swidth = canvas_size;
-   int sheight = canvas_size;
    
    double x = 0.3;
    double y = 0.5;
