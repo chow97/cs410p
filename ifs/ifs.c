@@ -34,11 +34,15 @@ int ITER = 1000000;
 int canvas_size = 800;
 int swidth;
 int sheight;
-double x = 0.3;
-double y = 0.5;
+double x = 0.0;
+double y = 0.0;
 
 #include  "FPToolkit.c"
 
+void half(double *x ,double *y){
+    *x /= 2.0;
+    *y /= 2.0;
+}
 int main() {
    swidth = canvas_size;
    sheight = canvas_size;
@@ -66,25 +70,33 @@ int main() {
 }
 
 void rule1 () {
-   x = x/2.0;
-   y = y/2.0;
+   // x = x/2.0;
+   // y = y/2.0;
+   half(&x,&y);
    G_point (swidth*x, sheight*y);
 }
 
 void rule2 () {
-   x = x/2.0 + 0.5;
-   y = y/2.0 + 0.5;
+   // x = x/2.0 + 0.5;
+   // y = y/2.0 + 0.5;
+   half(&x,&y);
+   x += 0.5;
+   y += 0.5;
    G_point (swidth*x, sheight*y);
 }
 
 void rule3 () {
-   x = x/2.0 + 0.5;
-   y = y/2.0;
+   // x = x/2.0 + 0.5;
+   // y = y/2.0;
+   half(&x,&y);
+   x += 0.5;
    G_point (swidth*x, sheight*y);
 }
 
 void rule4 () {
-   x = x/2.0;
-   y = y/2.0 + 0.5;
-   G_point (swidth*x, sheight*y);
+   // x = x/2.0;
+   // y = y/2.0 + 0.5;
+   // half(&x,&y);
+   // y += 0.5;
+   // G_point (swidth*x, sheight*y);
 }
