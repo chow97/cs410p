@@ -56,6 +56,7 @@ int main(){
     swidth = canvas;
     G_init_graphics(sheight,swidth);
     G_clear();
+    // set color to green
     G_rgb(0,1,0);
 
     int i;
@@ -74,15 +75,6 @@ int main(){
         else { rule8(); }
         G_point(x*swidth, y*sheight);
     }
-//    for (int i = 0; i < 10000000; ++i) {
-//       double n = drand48();
-//       if (n < 0.25) rule1();
-//       else if (n > 0.25 && n < 0.5) rule2();
-//       else if (n > 0.5 && n < 0.75) rule3();
-
-//       else rule4();
-//       G_point(x*swidth, y*sheight);
-//    }
 
 
     G_wait_key();
