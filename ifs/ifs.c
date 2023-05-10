@@ -1,102 +1,60 @@
 #include  "FPToolkit.c"
-// int canvas_size = 800;
 
-// void rule1(double x, double y);
-// void rule2(double x, double y);
+int ITER = 10000000;
+// canvas size
+double canvas = 800.0;
+double sheight;
+double swidth;
 
-
-// void rule1(double x, double y){
-//     x = x/2;
-//     y = y/2;
-// }
-// void rule2(double x, double y){
-//     x = x/2+0.5;
-//     y = y/2+0.5;
-// }
-
-// int main(){
-
-//     int swidth, sheight;
-//     swidth = canvas_size ;  sheight = canvas_size ;
-
-//     double n;
-//     n = drand48();
-
-// }
-
-void rule1 ();
-void rule2 ();
-void rule3 ();
-void rule4 ();
-
-int ITER = 1000000;
-
-int canvas_size = 800;
-int swidth;
-int sheight;
+//starting point
 double x = 0.0;
 double y = 0.0;
 
-#include  "FPToolkit.c"
-
-void half(double *x ,double *y){
-    *x /= 2.0;
-    *y /= 2.0;
+void scale(double sfx, double sfy){
+    x *= sfx;
+    y *= sfy;
 }
-int main() {
-   swidth = canvas_size;
-   sheight = canvas_size;
-   G_init_graphics(swidth, sheight);
-   G_rgb (0.3, 0.3, 0.3);
-   G_clear();
-
-   G_rgb(0.0, 1.0, 0.0);
-    
-   
-   
-   for (int i = 0; i < ITER; ++i) {
-      double n = drand48();
-      if (n < 1.0/4.0) rule1();
-      else if (n > 1.0/4.0 && n < 2.0/4.0) rule2();
-      else if (n > 2.0/4.0 && n < 3.0/4.0) rule3();
-
-      else rule4();
-   }
-
-   int key;
-   key = G_wait_key();
-
-   return 0;
+void translate(double tfx, double tfy){
+    x += tfx;
+    y += tfy;
 }
-
-void rule1 () {
-   // x = x/2.0;
-   // y = y/2.0;
-   half(&x,&y);
-   G_point (swidth*x, sheight*y);
+void rule1(){
+    scale(1.0/2.0, 1.0/2.0);
 }
-
-void rule2 () {
-   // x = x/2.0 + 0.5;
-   // y = y/2.0 + 0.5;
-   half(&x,&y);
-   x += 0.5;
-   y += 0.5;
-   G_point (swidth*x, sheight*y);
+void rule2(){
+    scale(1.0/2.0, 1.0/2.0);
+    translate(1.0/2.0, 0);
 }
-
-void rule3 () {
-   // x = x/2.0 + 0.5;
-   // y = y/2.0;
-   half(&x,&y);
-   x += 0.5;
-   G_point (swidth*x, sheight*y);
+void rule3(){
+    scale(1.0/2.0, 1.0/2.0);
+    translate(1.0/2.0, 1.0/2.0);
 }
+void rule4(){
+    scale(1.0/2.0, 1.0/2.0);
+    translate(0, 1.0/2.0);
+}
+int main(){
+    // canvas heght and width
+    sheight = canvas;
+    swidth = canvas;
+    G_init_graphics(sheight,swidth);
+    G_clear();
+    // set color to green
+    G_rgb(0,1,0);
 
-void rule4 () {
-   // x = x/2.0;
-   // y = y/2.0 + 0.5;
-   // half(&x,&y);
-   // y += 0.5;
-   // G_point (swidth*x, sheight*y);
+    int i;
+    double n;
+
+    for(i = 0; i < ITER; ++i){
+        n = drand48();
+        if(n < 1.0/4.0) { rule1(); }
+        else if(n > 1.0/4.0 && n < 2.0/4.0) { rule2(); }
+        else if(n > 2.0/4.0 && n < 3.0/4.0) { rule3(); }
+        else { rule4(); }
+        G_point(x*swidth, y*sheight);
+    }
+
+    G_wait_key();
+
+    return 0;
 }
