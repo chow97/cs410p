@@ -26,10 +26,15 @@
 
 void rule1 ();
 void rule2 ();
+void rule3 ();
+void rule4 ();
+
+int ITER = 1000000;
+
 int canvas_size = 800;
 int swidth;
 int sheight;
-double x = 0.5;
+double x = 0.3;
 double y = 0.5;
 
 #include  "FPToolkit.c"
@@ -45,28 +50,41 @@ int main() {
     
    
    
-   for (int i = 0; i < 1000000; ++i) {
+   for (int i = 0; i < ITER; ++i) {
       double n = drand48();
-      if (n > 0.5) rule1();
-      else rule2();
+      if (n < 1.0/4.0) rule1();
+      else if (n > 1.0/4.0 && n < 2.0/4.0) rule2();
+      else if (n > 2.0/4.0 && n < 3.0/4.0) rule3();
+
+      else rule4();
    }
 
    int key;
    key = G_wait_key();
 
    return 0;
- 
-   
 }
 
 void rule1 () {
-   x = x/2;
-   y = y/2;
+   x = x/2.0;
+   y = y/2.0;
    G_point (swidth*x, sheight*y);
 }
 
 void rule2 () {
-   x = x/2 + 0.5;
-   y = y/2 + 0.5;
+   x = x/2.0 + 0.5;
+   y = y/2.0 + 0.5;
+   G_point (swidth*x, sheight*y);
+}
+
+void rule3 () {
+   x = x/2.0 + 0.5;
+   y = y/2.0;
+   G_point (swidth*x, sheight*y);
+}
+
+void rule4 () {
+   x = x/2.0;
+   y = y/2.0 + 0.5;
    G_point (swidth*x, sheight*y);
 }
