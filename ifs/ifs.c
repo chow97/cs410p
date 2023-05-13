@@ -1,72 +1,60 @@
 #include  "FPToolkit.c"
-// int canvas_size = 800;
 
-// void rule1(double x, double y);
-// void rule2(double x, double y);
+int ITER = 10000000;
+// canvas size
+double canvas = 800.0;
+double sheight;
+double swidth;
 
+//starting point
+double x = 0.0;
+double y = 0.0;
 
-// void rule1(double x, double y){
-//     x = x/2;
-//     y = y/2;
-// }
-// void rule2(double x, double y){
-//     x = x/2+0.5;
-//     y = y/2+0.5;
-// }
-
-// int main(){
-
-//     int swidth, sheight;
-//     swidth = canvas_size ;  sheight = canvas_size ;
-
-//     double n;
-//     n = drand48();
-
-// }
-
-void rule1 ();
-void rule2 ();
-int canvas_size = 800;
-int swidth;
-int sheight;
-double x = 0.5;
-double y = 0.5;
-
-#include  "FPToolkit.c"
-
-int main() {
-   swidth = canvas_size;
-   sheight = canvas_size;
-   G_init_graphics(swidth, sheight);
-   G_rgb (0.3, 0.3, 0.3);
-   G_clear();
-
-   G_rgb(0.0, 1.0, 0.0);
-    
-   
-   
-   for (int i = 0; i < 1000000; ++i) {
-      double n = drand48();
-      if (n > 0.5) rule1();
-      else rule2();
-   }
-
-   int key;
-   key = G_wait_key();
-
-   return 0;
- 
-   
+void scale(double sfx, double sfy){
+    x *= sfx;
+    y *= sfy;
 }
-
-void rule1 () {
-   x = x/2;
-   y = y/2;
-   G_point (swidth*x, sheight*y);
+void translate(double tfx, double tfy){
+    x += tfx;
+    y += tfy;
 }
+void rule1(){
+    scale(1.0/2.0, 1.0/2.0);
+}
+void rule2(){
+    scale(1.0/2.0, 1.0/2.0);
+    translate(1.0/2.0, 0);
+}
+void rule3(){
+    scale(1.0/2.0, 1.0/2.0);
+    translate(1.0/2.0, 1.0/2.0);
+}
+void rule4(){
+    scale(1.0/2.0, 1.0/2.0);
+    translate(0, 1.0/2.0);
+}
+int main(){
+    // canvas heght and width
+    sheight = canvas;
+    swidth = canvas;
+    G_init_graphics(sheight,swidth);
+    G_clear();
+    // set color to green
+    G_rgb(0,1,0);
 
-void rule2 () {
-   x = x/2 + 0.5;
-   y = y/2 + 0.5;
-   G_point (swidth*x, sheight*y);
+    int i;
+    double n;
+
+    for(i = 0; i < ITER; ++i){
+        n = drand48();
+        if(n < 1.0/4.0) { rule1(); }
+        else if(n > 1.0/4.0 && n < 2.0/4.0) { rule2(); }
+        else if(n > 2.0/4.0 && n < 3.0/4.0) { rule3(); }
+        else { rule4(); }
+        G_point(x*swidth, y*sheight);
+    }
+
+    G_wait_key();
+
+    return 0;
 }
