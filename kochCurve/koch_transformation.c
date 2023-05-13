@@ -132,7 +132,7 @@ int main()
   */
 
   sx = 10 ;
-  sy = 10 ;
+  sy = 400 ;
   angle = 0 ;
   length = swidth - 2*sx ;
     
