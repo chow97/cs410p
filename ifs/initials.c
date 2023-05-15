@@ -18,6 +18,11 @@ void translate(double tfx, double tfy){
     x += tfx;
     y += tfy;
 }
+void rotate(double angle) {
+   x = cos(a*M_PI/180);
+   y = sin(a*M_PI/180);
+}
+// Babies
 void rule1(){
     scale(1.0/3.0, 1.0/3.0);
 }
