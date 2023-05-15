@@ -19,8 +19,8 @@ void translate(double tfx, double tfy){
     y += tfy;
 }
 void rotate(double angle) {
-   x = cos(a*M_PI/180);
-   y = sin(a*M_PI/180);
+   x = cos(angle*M_PI/180);
+   y = sin(angle*M_PI/180);
 }
 // Babies
 void rule1(){
@@ -55,6 +55,8 @@ void rule8(){
     translate(2.0/3.0, 1.0/3.0);
 }
 
+void do_nothing() {return;};
+
 int main(){
     // canvas heght and width
     sheight = canvas;
@@ -82,11 +84,13 @@ int main(){
 
         	
         if (n < 1.0/4.0) { 
-	   
+           scale(0.9, 0.9);
+	   rotate(10.0);
+	   translate(x*0.1, y*0.1);	   
 	}
-        else if (n > 1.0/4.0 && n < 2.0/4.0) { }
-        else if(n > 2.0/4.0 && n < 3.0/4.0) { }
-        else if(n > 3.0/4.0 && n < 4.0/4.0) { }
+        // else if (n > 1.0/4.0 && n < 2.0/4.0) do_nothing();
+        // else if(n > 2.0/4.0 && n < 3.0/4.0) do_nothing();
+        // else (n > 3.0/4.0 && n < 4.0/4.0) do_nothing();
 	G_point(x*swidth, y*sheight);
     }
 
