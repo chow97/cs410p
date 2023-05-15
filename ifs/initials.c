@@ -69,7 +69,7 @@ int main(){
 
     for(i = 0; i < ITER; ++i){
         n = drand48();
-        if(n < 1.0/9.0) { rule1(); }
+        /* if(n < 1.0/9.0) { rule1(); }
         else if(n > 1.0/9.0 && n < 2.0/9.0) { rule2(); }
         else if(n > 2.0/9.0 && n < 3.0/9.0) { rule3(); }
         else if(n > 3.0/9.0 && n < 4.0/9.0) { rule4(); }
@@ -78,7 +78,16 @@ int main(){
         else if(n > 6.0/9.0 && n < 7.0/9.0) { rule7(); }
         // else if(n > 7.0/9.0 && n < 8.0/9.0) { rule8(); }
         else { rule8(); }
-        G_point(x*swidth, y*sheight);
+        */
+
+        	
+        if (n < 1.0/4.0) { 
+	   
+	}
+        else if (n > 1.0/4.0 && n < 2.0/4.0) { }
+        else if(n > 2.0/4.0 && n < 3.0/4.0) { }
+        else if(n > 3.0/4.0 && n < 4.0/4.0) { }
+	G_point(x*swidth, y*sheight);
     }
 
 
