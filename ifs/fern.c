@@ -18,36 +18,33 @@ void translate(double tfx, double tfy){
     x += tfx;
     y += tfy;
 }
+void rotate(double angle) {
+//    x = cos(angle*M_PI/180);
+//    y = sin(angle*M_PI/180);
+    double r, a;
+    double t = angle * (M_PI/180);
+    double temp;
+    double c,s;
+    c= cos(t);
+    s = sin(t);
+
+    temp = (x*c) - (y*s);
+    y = (y*c) + (x*s);
+    x = temp;
+}
 void rule1(){
-    scale(1.0/3.0, 1.0/3.0);
+    scale(2.0/8.0, 1.0/5.0);
+    translate(1.0/8.0,1.0/5.0);
 }
 void rule2(){
-    scale(1.0/3.0, 1.0/3.0);
-    translate(1.0/3.0, 0);
+    scale(2.0/8.0, 1.0/5.0);
+    rotate(90.0);
+
+    translate(1.0/8.0,1.0/5.0);
 }
 void rule3(){
-    scale(1.0/3.0, 1.0/3.0);
-    translate(2.0/3.0, 0);
-}
-void rule4(){
-    scale(1.0/3.0, 1.0/3.0);
-    translate(0, 1.0/3.0);
-}
-void rule5(){
-    scale(1.0/3.0, 1.0/3.0);
-    translate(0, 2.0/3.0);
-}
-void rule6(){
-    scale(1.0/3.0, 1.0/3.0);
-    translate(1.0/3.0, 2.0/3.0);
-}
-void rule7(){
-    scale(1.0/3.0, 1.0/3.0);
-    translate(2.0/3.0, 2.0/3.0);
-}
-void rule8(){
-    scale(1.0/3.0, 1.0/3.0);
-    translate(2.0/3.0, 1.0/3.0);
+    scale(2.0/8.0, 1.0/5.0);
+    translate(7.0/8.0,1.0/5.0);
 }
 
 int main(){
@@ -64,15 +61,9 @@ int main(){
 
     for(i = 0; i < ITER; ++i){
         n = drand48();
-        if(n < 1.0/9.0) { rule1(); }
-        else if(n > 1.0/9.0 && n < 2.0/9.0) { rule2(); }
-        else if(n > 2.0/9.0 && n < 3.0/9.0) { rule3(); }
-        else if(n > 3.0/9.0 && n < 4.0/9.0) { rule4(); }
-        else if(n > 4.0/9.0 && n < 5.0/9.0) { rule5(); }
-        else if(n > 5.0/9.0 && n < 6.0/9.0) { rule6(); }
-        else if(n > 6.0/9.0 && n < 7.0/9.0) { rule7(); }
-        // else if(n > 7.0/9.0 && n < 8.0/9.0) { rule8(); }
-        else { rule8(); }
+        if(n < 1.0/3.0) { rule1(); }
+        else if(n > 1.0/3.0 && n < 2.0/3.0) { rule2(); }
+        else { rule3(); }
         G_point(x*swidth, y*sheight);
     }
 
