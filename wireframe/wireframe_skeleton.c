@@ -23,7 +23,7 @@ with the x-axis perpendicular to this plane.
 */
 
 #define M 700000
-double Wsize = 1000  ; // window size ... choose 600 for repl
+double Wsize = 800  ; // window size ... choose 600 for repl
 double X[M],Y[M],Z[M] ;
 double Xplot[M],Yplot[M] ;
 int N = 0 ;
@@ -101,6 +101,11 @@ int project(double observer_distance, double halfangle_degrees)
 {
 
   // student work goes here
+  for (int i = 0; i < M; ++i) {
+	Xplot[i] = (X[i] * Wsize)/(observer_distance * tan(halfangle_degrees)) + Wsize/2; 
+	Yplot[i] = (Y[i] * Wsize)/(observer_distance * tan(halfangle_degrees)) + Wsize/2; 
+  } 
+
   
 }
 
@@ -189,7 +194,7 @@ int test_pyramid()
   G_rgb(0,1,0) ;
 
   build_pyramid() ;
-  project(3,45) ;
+  project(5,45) ;
   draw() ;
   print_object() ;
   
@@ -223,6 +228,6 @@ int test_pyramid_rotate()
 
 int main()
 {
-  test_pyramid() ;
-  //  test_pyramid_rotate() ;
+   test_pyramid() ;
+    test_pyramid_rotate() ;
 }
