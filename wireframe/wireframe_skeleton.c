@@ -103,9 +103,9 @@ int project(double observer_distance, double halfangle_degrees)
   // student work goes here
   for (int i = 0; i < M; ++i) {
 	Xplot[i] = (X[i] * Wsize)/(observer_distance * tan(halfangle_degrees)) + Wsize/2; 
-	Yplot[i] = (Y[i] * Wsize)/(observer_distance * tan(halfangle_degrees)) + Wsize/2; 
+	Yplot[i] = (Y[i] * Wsize)/(observer_distance * tan(halfangle_degrees)) + Wsize/2;
   } 
-
+  rotate_x(2);
   
 }
 
@@ -180,7 +180,26 @@ int build_pyramid()
 }
 
 
+int build_cube() {
 
+  double x[100], z[100], y[100];
+  
+  x[0] = 0; y[0] = 0; z[0] = 0;
+  x[1] = 2; y[1] = 0; z[1] = 0;
+  x[2] = 2; y[2] = 0; z[2] = 2;
+  x[3] = 0; y[3] = 0; z[3] = 2;
+  
+//  x[4] = 2; y[0] = 2; z[0] = 0;
+//  x[5] = 2; y[0] = 2; z[0] = 0;
+//  x[6] = 2; y[0] = 2; z[0] = 0;
+//  x[7] = 2; y[0] = 2; z[0] = 0;
+  
+  save_line(x[0],y[0],z[0], x[1],y[1],z[1]);
+  save_line(x[0],y[0],z[0], x[3],y[3],z[3]);
+  save_line(x[1],y[1],z[1], x[2],y[2],z[2]);
+  save_line(x[2],y[2],z[2], x[3],y[3],z[3]);
+
+}
 
 
 
@@ -201,7 +220,21 @@ int test_pyramid()
   G_wait_key() ;
 }
 
+int test_cube()
+{
+  G_init_graphics(Wsize,Wsize) ;
+  G_rgb(0,0,0) ;
+  G_clear() ;
+  G_rgb(0,1,0) ;
 
+  build_cube() ;
+  project(5,45) ;
+  draw() ;
+  print_object() ;
+  
+  G_wait_key() ;
+
+}
 
 
 int test_pyramid_rotate()
@@ -217,7 +250,28 @@ int test_pyramid_rotate()
     G_rgb(0,1,0) ;
     project(3,45) ;
     draw() ;
-    rotate_y(2) ;  
+    rotate_y(2) ;
+//    rotate_x(2);  
+    if (G_wait_key() == 'q') { break ; }
+  }
+  
+}
+
+int test_cube_rotate()
+{
+  //  G_choose_repl_display() ; // not too bad as a repl movie
+  G_init_graphics(Wsize,Wsize) ;
+
+  build_cube() ;
+  
+  while (1) {
+    G_rgb(0,0,0) ;
+    G_clear() ;
+    G_rgb(0,1,0) ;
+    project(3,45) ;
+    draw() ;
+    rotate_y(2) ;
+    rotate_x(2);  
     if (G_wait_key() == 'q') { break ; }
   }
   
@@ -228,6 +282,8 @@ int test_pyramid_rotate()
 
 int main()
 {
-   test_pyramid() ;
-    test_pyramid_rotate() ;
+   // test_pyramid() ;
+   // test_pyramid_rotate() ;
+   test_cube_rotate();
+
 }
