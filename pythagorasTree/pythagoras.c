@@ -56,15 +56,64 @@ int main(){
     G_clear();
 
     point p1, p2;
-    p1.x = swidth/2 - 50;
-    p1.y = sheight/5;
-    p2.x = p1.x + 100;
+    p1.x = swidth *3.6/8;
+    p1.y = sheight/10;
+    p2.x = swidth - p1.x;
     p2.y = p1.y;
     
+    point p3, p4;
+    p3.x = swidth *3.7/8;
+    p3.y = p1.y + 200;
+    p4.x = swidth - p3.x;
+    p4.y = p3.y;
+    
+    point p5, p6;
+    p5.x = swidth *3.8/8;
+    p5.y = p1.y + 400;
+    p6.x = swidth - p5.x;
+    p6.y = p5.y;
+
+    point p7, p8;
+    p7.x = swidth *3.9/8;
+    p7.y = p1.y + 550;
+    p8.x = swidth - p7.x;
+    p8.y = p7.y;
 
     tree(p2, p1, 12);
+    tree(p4, p3, 12);
+    tree(p6, p5, 12);
+    tree(p8, p7, 12);
     tree_trunk(p1, p2);
 
+    double x [1000];
+    double y [1000];
+       for (int i = -1; i < 1000; ++i) {
+    	  x[i] = swidth * 6 * drand48();
+    	  y[i] = sheight * drand48() + sheight;
+       }
+
+    while (1) {
+       G_wait_key();
+       G_rgb(0,0,0);
+       G_clear();
+
+       tree(p2, p1, 12);
+       tree(p4, p3, 12);
+       tree(p6, p5, 12);
+    //    tree(p8, p7, 12);
+       tree_trunk(p1, p2);
+       
+       for (int i = 0; i < 1000; ++i) {
+            G_rgb(1,1,1);
+    	    G_fill_circle(x[i], y[i], 2);
+       }
+       for (int i = 0; i < 1000; ++i) {
+            y[i] -= 1;
+       }
+
+    }   
+
+    
     G_wait_key();
     G_save_to_bmp_file("xmas_tree.bmp");
     

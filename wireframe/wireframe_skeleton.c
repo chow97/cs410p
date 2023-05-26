@@ -278,7 +278,7 @@ int test_cube_rotate()
     G_rgb(0,0,0) ;
     G_clear() ;
     G_rgb(0,1,0) ;
-    project(3,45) ;
+    project(4,45) ;
     draw() ;
     rotate_y(2) ;
     rotate_x(2);  
