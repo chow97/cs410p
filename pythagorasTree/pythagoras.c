@@ -7,14 +7,14 @@ typedef struct {
 void tree (point p1, point p2, int level){
     point p3, p4, p5;    
 
-    p3.x = p2.x - (p1.y -  p2.y);
-    p3.y = p2.y - (p2.x -  p1.x);
+    p4.x = p1.x - (p2.y -  p1.y);
+    p4.y = p1.y - (p1.x -  p2.x);
 	
-    p4.x = p1.x - (p1.y -  p2.y);
-    p4.y = p1.y - (p2.x -  p1.x);
+    p3.x = p2.x - (p2.y -  p1.y);
+    p3.y = p2.y - (p1.x -  p2.x);
 	
-    p5.x = p4.x +  ( p2.x - p1.x - (p1.y -  p2.y) ) / 2;
-    p5.y = p4.y -  ( p2.x - p1.x +  p1.y -  p2.y  ) / 2;
+    p5.x = p3.x +  ( p1.x - p2.x - (p2.y -  p1.y) ) / 2;
+    p5.y = p3.y -  ( p1.x - p2.x +  p2.y -  p1.y  ) / 2;
 	 
     if(level > 0){
 	G_rgb(drand48(), drand48(), drand48());
@@ -79,17 +79,17 @@ int main(){
     p8.x = swidth - p7.x;
     p8.y = p7.y;
 
-    tree(p2, p1, 12);
-    tree(p4, p3, 12);
-    tree(p6, p5, 12);
-    tree(p8, p7, 12);
+    tree(p1, p2, 12);
+    tree(p3, p4, 12);
+    tree(p5, p6, 12);
+    tree(p7, p8, 12);
     tree_trunk(p1, p2);
 
     double x [1000];
     double y [1000];
        for (int i = -1; i < 1000; ++i) {
-    	  x[i] = swidth * 6 * drand48();
-    	  y[i] = sheight * drand48() + sheight;
+    	  x[i] = swidth * drand48();
+    	  y[i] = sheight * 6 * drand48() + sheight;
        }
 
     while (1) {
@@ -97,10 +97,10 @@ int main(){
        G_rgb(0,0,0);
        G_clear();
 
-       tree(p2, p1, 12);
-       tree(p4, p3, 12);
-       tree(p6, p5, 12);
-    //    tree(p8, p7, 12);
+       tree(p1, p2, 12);
+       tree(p3, p4, 12);
+       tree(p5, p6, 12);
+       tree(p7, p8, 1);
        tree_trunk(p1, p2);
        
        for (int i = 0; i < 1000; ++i) {
@@ -112,7 +112,6 @@ int main(){
        }
 
     }   
-
     
     G_wait_key();
     G_save_to_bmp_file("xmas_tree.bmp");
