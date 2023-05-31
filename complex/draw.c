@@ -46,11 +46,11 @@ int main () {
     for(double y = -2.0; y <= 2.0; y += unit){
         for(double x = -2.0; x <= 2.0; x += unit){
             if(check(x+y*I) == 1){
-                G_rgb(1,0,0);
+                G_rgb(0,0,1);
                 G_point((x+2)*Wsize/4, (y+2)*Wsize/4);
             }
             else{
-                G_rgb(0,0,1);
+                G_rgb(0,0,0);
                 G_point((x+2)*Wsize/4, (y+2)*Wsize/4);
             }
 
