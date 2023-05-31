@@ -93,7 +93,7 @@ int main(){
     }
 
     while (1) {
-       G_wait_key();
+    //    G_wait_key();
        G_rgb(0,0,0);
        G_clear();
 
@@ -108,8 +108,15 @@ int main(){
     	    G_fill_circle(x[i], y[i], 2);
        }
        for (int i = 0; i < 1000; ++i) {
-            y[i] -= 5;
+            y[i] -= 1;
        }
+
+       for (int i = 0; i < 500000; ++i) {
+            if (i % 10000 == 0)    {
+                G_display_image();
+                usleep(100);
+            }
+        }
 
     }   
     
