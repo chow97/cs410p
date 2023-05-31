@@ -42,18 +42,25 @@ int main () {
     G_rgb (0, 0, 0) ; // black screen
     G_clear () ;
 
-    double unit = 4/800;
+    double unit = 4.0/800;
 
-    a is the real part, b is the coefficient
-    for (double a = -2.0; a < 2; a = a + unit) {
-        for (double b = -2.0; b < 2; a = b + unit) {
+    // a is the real part, b is the coefficient
+    for (double a = -2.0; a < 2.0; a += unit) {
+        for (double b = -2.0; b < 2.0; b += unit) {
             if (check(a + b*I) == 1) {
-                G_rgb(0,1,0);
-                G_point ((a+2)*800, (b+2)*800);
+                G_rgb(0.82,0.54,0.82);
+                G_point ((a+2)*Wsize/4, (b+2)*Wsize/4);
             } else {
-                G_rgb(0,0,1);
-                G_point ((a+2)*800, (b+2)*800);
+                G_rgb(0.61,0.84,0.93);
+                G_point ((a+2)*Wsize/4, (b+2)*Wsize/4);
             } 
+        }
+         
+        for (int i = 0; i < 500000; ++i) {
+            if (i % 10000 == 0)    {
+                G_display_image();
+                usleep(100);
+            }
         }
     }
 
