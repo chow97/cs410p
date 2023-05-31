@@ -79,18 +79,18 @@ int main(){
     p8.x = swidth - p7.x;
     p8.y = p7.y;
 
-    tree(p1, p2, 12);
-    tree(p3, p4, 12);
-    tree(p5, p6, 12);
-    tree(p7, p8, 12);
-    tree_trunk(p1, p2);
+    // tree(p1, p2, 12);
+    // tree(p3, p4, 12);
+    // tree(p5, p6, 12);
+    // tree(p7, p8, 12);
+    // tree_trunk(p1, p2);
 
-    double x [1000];
-    double y [1000];
-       for (int i = -1; i < 1000; ++i) {
-    	  x[i] = swidth * drand48();
-    	  y[i] = sheight * 6 * drand48() + sheight;
-       }
+    double x[1000];
+    double y[1000];
+    for (int i = 0; i < 1000; ++i) {
+        x[i] = swidth * drand48();
+        y[i] = sheight * 6 * drand48() + sheight;
+    }
 
     while (1) {
        G_wait_key();
@@ -100,7 +100,7 @@ int main(){
        tree(p1, p2, 12);
        tree(p3, p4, 12);
        tree(p5, p6, 12);
-       tree(p7, p8, 1);
+       tree(p7, p8, 12);
        tree_trunk(p1, p2);
        
        for (int i = 0; i < 1000; ++i) {
@@ -108,7 +108,7 @@ int main(){
     	    G_fill_circle(x[i], y[i], 2);
        }
        for (int i = 0; i < 1000; ++i) {
-            y[i] -= 1;
+            y[i] -= 5;
        }
 
     }   
