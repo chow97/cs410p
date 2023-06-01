@@ -35,24 +35,21 @@ int check (complex c) {
     return 0;
 }
 
-int main () {
-
-    G_init_graphics (Wsize, Wsize) ;  // interactive graphics
-    // clear the screen in a given color
-    G_rgb (0, 0, 0) ; // black screen
-    G_clear () ;
-
-    double unit = 4.0/800;
+void mandel (double a, double b, int click) {
+    // double click = 1;
+    double range = 4.0 / pow(2, click);
+    double unit = range / Wsize;
 
     // a is the real part, b is the coefficient
-    for (double a = -2.0; a < 2.0; a += unit) {
-        for (double b = -2.0; b < 2.0; b += unit) {
-            if (check(a + b*I) == 1) {
+
+    for (double a_sub = a - range/2; a_sub < a + range/2; a_sub += unit) {
+        for (double b_sub = b - range/2; b_sub < b + range/2; b_sub += unit) {
+            if (check(a_sub + b_sub*I) == 1) {
                 G_rgb(0.82,0.54,0.82);
-                G_point ((a+2)*Wsize/4, (b+2)*Wsize/4);
+                G_point ((a_sub - a + range/2)*Wsize/range, (b_sub - b + range/2)*Wsize/range);
             } else {
                 G_rgb(0.61,0.84,0.93);
-                G_point ((a+2)*Wsize/4, (b+2)*Wsize/4);
+                G_point ((a_sub - a + range/2)*Wsize/range, (b_sub - b + range/2)*Wsize/range);
             } 
         }
          
@@ -63,6 +60,27 @@ int main () {
             }
         }
     }
+
+}
+
+int main () {
+
+    G_init_graphics (Wsize, Wsize) ;  // interactive graphics
+    // clear the screen in a given color
+    G_rgb (0, 0, 0) ; // black screen
+    G_clear () ;
+
+    double a, b;  
+    a = 0.0; b = 0.0; // starting a, b
+    // mandel(0.0, 0.0, 0);
+    mandel(-0.5, -0.5, 3);
+    
+    // double p[2];
+    // while (1) {
+    //     G_wait_click(p);
+
+    // }
+    
 
     G_wait_key();
     return 0;
