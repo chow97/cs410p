@@ -10,7 +10,7 @@ double angle_current = 90.0;
 
 const int Wsize = 800;
 // unit to draw
-double length = 1.0;
+double length = 0.5;
 double x_value, y_value;
 // start drawing from this point
 double x_current = Wsize/2;
@@ -26,18 +26,18 @@ void negative_rot() { angle_current -= angle; };
 
 void draw(char * str);
 
-double red_plant = 0.34;
-double green_plant = 0.16;
-double blue_plant = 0.16;
+double red_plant = 0.73;
+double green_plant = 0.39;
+double blue_plant = 0.05;
 
-double red_leaf = 0.34;
-double green_leaf = 0.75;
-double blue_leaf = 0.34;
+double red_leaf = 0.64;
+double green_leaf = 0.71;
+double blue_leaf = 0.17;
 
 int main()
 {
    char str [strleng];
-   string_builder_level(str, 8);
+   string_builder_level(str, 9);
    strleng = strlen(str);
 
    // if you want to use external file, comment out the line above and uncomment the line below:
