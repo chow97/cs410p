@@ -36,7 +36,6 @@ int check (complex c) {
 }
 
 void mandel (double a, double b, int click) {
-    // double click = 1;
     double range = 4.0 / pow(2, click);
     double unit = range / Wsize;
 
@@ -73,7 +72,7 @@ int main () {
     double a, b;  
     a = 0.0; b = 0.0; // starting a, b
     // mandel(0.0, 0.0, 0);
-    mandel(-0.5, -0.5, 3);
+    mandel(-0.6, -0.6, 7);
     
     // double p[2];
     // while (1) {

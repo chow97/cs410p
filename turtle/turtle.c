@@ -1,5 +1,5 @@
-#include  "FPToolkit.c"
-#include  "string_builder.c"
+#include "FPToolkit.c"
+#include "string_builder.c"
 #include "stack.c"
 
 int strleng = 2000000;
@@ -25,46 +25,22 @@ void negative_rot() { angle_current -= angle; };
 int main()
 {
    char str [strleng];
-   string_builder(str);
+   string_builder_level(str, 5);
    // if you want to use external file, comment out the line above and uncomment the line below:
 //   scanf("%s", str); 
 
-   int    swidth, sheight ;
-   double lowleftx, lowlefty, width, height ;
-   double x[10], y[10] ;
-   double numxy ;
-   double a[20], b[20] ;
-   double numab ;
-
-   
-   // must do this before you do 'almost' any other graphical tasks 
-   swidth = 400 ;  sheight = 600 ;
-   G_init_graphics (swidth,sheight) ;  // interactive graphics
-
-   
+   int Wsize = 800 ;
+ 
+   G_init_graphics (Wsize,Wsize) ;  // interactive graphics
    // clear the screen in a given color
    G_rgb (0.3, 0.3, 0.3) ; // dark gray
    G_clear () ;
    
-   // draw a line
-   G_rgb (0.0, 1.0, 0.0) ; // green
-//   G_line (0,0, swidth-1, sheight-1) ;
-
-
    //===============================================
    
 
    G_rgb(1,0,0) ;
    
-   // int i = 0;
- 
-   // // char str [strleng];
-   // while (str[i] != '\0' && i < strleng) {
-   // 	if (str[i] >= 'A' && str[i] <= 'Z') step();
-	// else if (str[i] == '+') positive_rot();
-   //      else negative_rot();
-	// ++i;
-   // }	
    struct stack* stack = createStack(100);
    int i = 0;
    while (str[i] != '\0' && i < strleng) {
@@ -87,6 +63,12 @@ int main()
       pop(stack);
    }
    ++i;
+   for (int i = 0; i < 500000; ++i) {
+            if (i % 10000 == 0)    {
+                G_display_image();
+                usleep(100);
+            }
+        }
    }	
 
 

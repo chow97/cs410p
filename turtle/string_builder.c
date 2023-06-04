@@ -37,6 +37,27 @@ int string_builder (char str []) {
    }   	
    return 0;
 };
+
+int string_builder_level (char str [], int level) {
+
+   // char str [leng];
+   strcpy(str, "A");
+
+   for (int i = 1; i <= level; ++i) {
+      int k = 0;
+      while (k < strlen(str)) {
+	if (str[k] != '-' && str[k] != '+' && str[k] != '[' && str[k] != ']') 
+	   k += replace(str, k);
+	else 
+	   ++k;
+      }
+      printf("Level %d: %s \n", i, str);
+      // printf("String:  %s\n", str);
+
+   }   	
+   return 0;
+};
+
 int replace(char str [], int i) {
 	char temp [strlen(str) + 10];
 	int substr_len;
