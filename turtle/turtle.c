@@ -8,12 +8,14 @@ double angle = 22.5;
 
 double angle_current = 90.0;
 
+const int Wsize = 800;
 // unit to draw
-double length = 10.0;
+double length = 1.0;
 double x_value, y_value;
 // start drawing from this point
-double x_current = 100.0;
+double x_current = Wsize/2;
 double y_current = 50.0;
+double y_max = 0.0;
 
 void rotate(double a);
 void step();
@@ -22,55 +24,52 @@ void values_reset();
 void positive_rot() { angle_current += angle; };
 void negative_rot() { angle_current -= angle; };
 
+void draw(char * str);
+
+double red_plant = 0.34;
+double green_plant = 0.16;
+double blue_plant = 0.16;
+
+double red_leaf = 0.34;
+double green_leaf = 0.75;
+double blue_leaf = 0.34;
+
 int main()
 {
    char str [strleng];
-   string_builder_level(str, 5);
+   string_builder_level(str, 8);
+   strleng = strlen(str);
+
    // if you want to use external file, comment out the line above and uncomment the line below:
 //   scanf("%s", str); 
-
-   int Wsize = 800 ;
  
    G_init_graphics (Wsize,Wsize) ;  // interactive graphics
    // clear the screen in a given color
-   G_rgb (0.3, 0.3, 0.3) ; // dark gray
+   // G_rgb (1, 1, 1) ; // white
+   G_rgb (0, 0, 0) ; // black
    G_clear () ;
    
    //===============================================
-   
 
-   G_rgb(1,0,0) ;
    
-   struct stack* stack = createStack(100);
-   int i = 0;
-   while (str[i] != '\0' && i < strleng) {
-   if (str[i] >= 'A' && str[i] <= 'Z') step();
-   else if (str[i] == '+') positive_rot();
-   else if (str[i] == '-') negative_rot();
-   else if (str[i] == '[') {
-      struct bracket point;
-      point.angle = angle_current;
-      point.x = x_current;
-      point.y = y_current;
-      push(stack, point);
-   }
-   else if (str[i] == ']') {
-      struct bracket point;
-      point = peek(stack);
-      angle_current = point.angle;
-      x_current = point.x;
-      y_current = point.y;
-      pop(stack);
-   }
-   ++i;
-   for (int i = 0; i < 500000; ++i) {
-            if (i % 10000 == 0)    {
-                G_display_image();
-                usleep(100);
-            }
-        }
-   }	
+   draw(str);
+   
+   // for (int i = 0; i < strleng; ++i) {
+   //    G_rgb (0, 0, 0) ; // black
+   //    G_clear () ;
+   //    double leaf_shade = (0.1 + i) / strleng;
+   //    red_leaf += leaf_shade;
+   //    green_leaf -= leaf_shade;
+   //    draw(str);
+   //          for (int i = 0; i < 500000; ++i) {
+   //          if (i % 100000 == 0)    {
+   //              G_display_image();
+   //              usleep(100);
+   //          }
+   //      }
+   // }
 
+  
 
    int key ;   
    key =  G_wait_key() ; // pause so user can see results
@@ -87,13 +86,57 @@ void rotate(double a) {
 void step() {
    values_reset();
    rotate(angle_current);
+ 
+   G_rgb(red_plant,green_plant,blue_plant) ;
+   
    G_line (x_current, y_current,  x_current+ x_value, y_current + y_value);
    x_current += x_value;
    y_current += y_value;
+
    values_reset();
 }
 
 void values_reset() {
    x_value = length;
    y_value = 0;
+}
+
+
+void draw(char * str) {
+   struct stack* stack = createStack(100);
+      int i = 0;
+      while (str[i] != '\0' && i < strleng) {
+         if (str[i] >= 'A' && str[i] <= 'Z') step();
+         else if (str[i] == '+') positive_rot();
+         else if (str[i] == '-') negative_rot();
+         else if (str[i] == '[') {
+            struct bracket point;
+            point.angle = angle_current;
+            point.x = x_current;
+            point.y = y_current;
+            push(stack, point);
+         }
+         else if (str[i] == ']') {
+            double leaf_shade = (0.1 + i) / strleng / 30000;
+            red_leaf += leaf_shade/2.5;
+            green_leaf -= leaf_shade/2;
+            blue_leaf -= leaf_shade;
+            G_rgb(red_leaf, green_leaf, blue_leaf);
+            G_fill_circle(x_current,y_current,length) ;
+            struct bracket point;
+            point = peek(stack);
+            angle_current = point.angle;
+            x_current = point.x;
+            y_current = point.y;
+            pop(stack);
+         }
+         ++i;
+   
+      //    for (int i = 0; i < 500000; ++i) {
+      //       if (i % 100000000 == 0)    {
+      //           G_display_image();
+      //           usleep(100);
+      //       }
+      //   }
+      }	
 }
