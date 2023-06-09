@@ -98,16 +98,16 @@ int main(){
     for(i = 0; i < ITER; ++i){
         n = drand48();
         if(n < 1.0/12.0) { rule1(); }
-        else if(n > 1.0/12.0 && n < 2.0/12.0) { rule2(); }
-        else if(n > 2.0/12.0 && n < 3.0/12.0) { rule3(); }
-        else if(n > 3.0/12.0 && n < 4.0/12.0) { rule4(); }
-        else if(n > 4.0/12.0 && n < 5.0/12.0) { rule5(); }
-        else if(n > 5.0/12.0 && n < 6.0/12.0) { rule6(); }
-        else if(n > 6.0/12.0 && n < 7.0/12.0) { rule7(); }
-        else if(n > 7.0/12.0 && n < 8.0/12.0) { rule8(); }
-        else if(n > 8.0/12.0 && n < 9.0/12.0) { rule9(); }
-        else if(n > 9.0/12.0 && n < 10.0/12.0) { rule10(); }
-        else if(n > 10.0/12.0 && n < 11.0/12.0) { rule11(); }
+        else if(n < 2.0/12.0) { rule2(); }
+        else if(n < 3.0/12.0) { rule3(); }
+        else if(n < 4.0/12.0) { rule4(); }
+        else if(n < 5.0/12.0) { rule5(); }
+        else if(n < 6.0/12.0) { rule6(); }
+        else if(n < 7.0/12.0) { rule7(); }
+        else if(n < 8.0/12.0) { rule8(); }
+        else if(n < 9.0/12.0) { rule9(); }
+        else if(n < 10.0/12.0) { rule10(); }
+        else if(n < 11.0/12.0) { rule11(); }
         else { rule12(); }
         G_point(x*swidth, y*sheight);
     }
