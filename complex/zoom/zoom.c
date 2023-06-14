@@ -106,7 +106,7 @@ void mandel_zoom (double a, double b, int times) {
                 G_point ((a_sub - a + range/2)*Wsize/range, (b_sub - b + range/2)*Wsize/range);
         } 
     }
-    range -= 0.01;
+    range -= 0.01*range;
 //    for (int i = 0; i < 500000; ++i) {
 //         if (i % 100000 == 0)    {
 //             G_display_image();
@@ -222,7 +222,9 @@ int main () {
     // julia_set();
 
 
-    mandel_zoom(-0.705000, 0.340000, 500);
+    // mandel_zoom(-0.705000, 0.340000, 500);
+    mandel_zoom(-0.730000, 0.280000, 800);
+    // mandel_zoom(-0.303, -0.078, 1000);
 
     // mandel(0.39, 0.35, 2);
 

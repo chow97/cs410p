@@ -1,3 +1,1 @@
-for file in *.bmp; do
-  ffmpeg -i "$file" -vcodec copy -acodec copy output.mp4
-done
+ffmpeg -framerate 40 -i img%04d.bmp output.mp4
