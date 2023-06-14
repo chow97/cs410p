@@ -1,102 +1,77 @@
-#include  "FPToolkit.c"
+#include "FPToolkit.c"
+#include <math.h>
 
-int ITER = 10000000;
-// canvas size
+// Canvas size
 double canvas = 800.0;
 double sheight;
 double swidth;
 
-//starting point
+// Starting point
 double x = 0.0;
 double y = 0.0;
 
-void scale(double sfx, double sfy){
+void scale(double sfx, double sfy) {
     x *= sfx;
     y *= sfy;
 }
-void translate(double tfx, double tfy){
+
+void translate(double tfx, double tfy) {
     x += tfx;
     y += tfy;
 }
-void rotate(double angle) {
-//    x = cos(angle*M_PI/180);
-//    y = sin(angle*M_PI/180);
-    double r, a;
-    double t = angle * (M_PI/180);
-    double temp;
-    double c,s;
-    c= cos(t);
-    s = sin(t);
 
-    temp = (x*c) - (y*s);
-    y = (y*c) + (x*s);
-    x = temp;
-}
-void rule1(){
-    scale(1.0/13.0, 1.0/5.0);
-    translate(2.0/13.0,2.0/13.0);
-}
-void rule2(){
-    scale(3.0/13.0, 1.0/5.0);
-    rotate(90.0);
-    translate(2.0/13.0,1.0/13.0);
-}
-void rule3(){
-    scale(3.0/13.0, 1.0/5.0);
-    rotate(90.0);
-    translate(4.0/13.0,1.0/13.0);
-}
-void rule4(){
-    scale(3.0/13.0, 1.0/5.0);
-    translate(5.0/13.0,3.0/13.0);
-}
-void rule5(){
-    scale(2.0/13.0, 1.0/5.0);
-    rotate(90.0);
-    translate(7.0/13.0,1.0/13.0);
-}
-void rule6(){
-    scale(3.0/13.0, 1.0/5.0);
-    rotate(90.0);
-    translate(10.0/13.0,1.0/13.0);
-}
-void rule7(){
-    scale(2.0/13.0, 1.0/5.0);
-    translate(10.0/13.0,3.0/13.0);
-}
-void rule8(){
-    scale(2.0/13.0, 1.0/5.0);
-    translate(10.0/13.0,1.0/13.0);
+void rule1() {
+    double newx = 0.85 * x + 0.04 * y;
+    double newy = -0.04 * x + 0.85 * y + 1.6;
+    x = newx;
+    y = newy;
 }
 
-int main(){
-    // canvas heght and width
+void rule2() {
+    double newx = 0.2 * x - 0.26 * y;
+    double newy = 0.23 * x + 0.22 * y + 1.6;
+    x = newx;
+    y = newy;
+}
+
+void rule3() {
+    double newx = -0.15 * x + 0.28 * y;
+    double newy = 0.26 * x + 0.24 * y + 0.44;
+    x = newx;
+    y = newy;
+}
+
+void rule4() {
+    scale(0, 0.16);
+}
+
+int main() {
+    // Canvas height and width
     sheight = canvas;
     swidth = canvas;
-    G_init_graphics(sheight,swidth);
-    G_clear();
-    // set color to green
-    G_rgb(0,1,0);
 
-    int i;
-    double n;
+    G_init_graphics(sheight, swidth);
+    G_rgb(0, 1, 0);  // Set color to green
 
-    for(i = 0; i < ITER; ++i){
-        n = drand48();
-        if(n < 1.0/8.0) { rule1(); }
-        else if(n > 1.0/8.0 && n < 2.0/8.0) { rule2(); }
-        else if(n > 2.0/8.0 && n < 3.0/8.0) { rule3(); }
-        else if(n > 3.0/8.0 && n < 4.0/8.0) { rule4(); }
-        else if(n > 4.0/8.0 && n < 5.0/8.0) { rule5(); }
-        else if(n > 5.0/8.0 && n < 6.0/8.0) { rule6(); }
-        else if(n > 6.0/8.0 && n < 7.0/8.0) { rule7(); }
-        else { rule8(); }
-        G_point(x*swidth, y*sheight);
+    int ITER = 1000000;
+
+    for (int i = 0; i < ITER; ++i) {
+        double n = drand48();
+        if (n < 0.85) {
+            rule1();
+        } else if (n < 0.92) {
+            rule2();
+        } else if (n < 0.99) {
+            rule3();
+        } else {
+            rule4();
+        }
+
+        G_point(40 * x + swidth / 2, 40 * y);
     }
 
-
     G_wait_key();
-    G_save_to_bmp_file("HTC.bmp");
+    G_save_to_bmp_file("BarnsleyFern.bmp");
 
     return 0;
 }
