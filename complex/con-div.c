@@ -70,6 +70,37 @@ void mandel (double a, double b, int click) {
 
 }
 
+void mandel_zoom (double a, double b, int times) {
+    
+    
+    double range = 4.0;
+    for (int i = 0; i < times; ++i) {
+    double unit = range / Wsize;
+
+    // a is the real part, b is the coefficient
+
+    for (double a_sub = a - range/2; a_sub < a + range/2; a_sub += unit) {
+        for (double b_sub = b - range/2; b_sub < b + range/2; b_sub += unit) {
+            complex i = check(a_sub + b_sub*I);
+            if (i == 0) {
+                G_rgb(0,0,0);
+            } else {
+                G_rgb(0.9/creal(i),0.7/creal(i), 0.6/creal(i) );
+            } 
+                G_point ((a_sub - a + range/2)*Wsize/range, (b_sub - b + range/2)*Wsize/range);
+        } 
+    }
+    range -= 0.05;
+   for (int i = 0; i < 500000; ++i) {
+            if (i % 100000 == 0)    {
+                G_display_image();
+                usleep(100);
+            }
+        }
+    }
+
+}
+
 void julia (double a, double b) {
     double range = 4.0;
     double unit = range / Wsize;
@@ -85,9 +116,9 @@ void julia (double a, double b) {
                 G_rgb(0,0,0);
             } else {
                 G_rgb(  
-                        0.3/creal(result), // + 0.6/cimag(result),
-                        0.6/creal(result), // + 0.3/cimag(result), 
-                        0.9/creal(result)  // + 0.1/cimag(result)
+                        1/creal(result), // + 0.6/cimag(result),
+                        2/creal(result), // + 0.3/cimag(result), 
+                        3/creal(result)  // + 0.1/cimag(result)
                     );
             } 
             G_point ((a_sub + 2.0)*Wsize/range, (b_sub + 2.0)*Wsize/range + Hsize/2);
@@ -157,14 +188,19 @@ void julia_set() {
 
 int main () {
 
-    // G_init_graphics (Wsize, Wsize) ;  // interactive graphics
-    // // clear the screen in a given color
-    // G_rgb (0, 0, 0) ; // black screen
-    // G_clear () ;
+    G_init_graphics (Wsize, Wsize) ;  // interactive graphics
+    // clear the screen in a given color
+    G_rgb (0, 0, 0) ; // black screen
+    G_clear () ;
 
     // mandel_set();
     
-    julia_set();
+    // julia_set();
+
+
+    mandel_zoom(0.39, 0.35, 300);
+
+    // mandel(0.39, 0.35, 2);
 
     G_wait_key();
     return 0;

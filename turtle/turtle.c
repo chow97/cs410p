@@ -75,7 +75,7 @@ int main()
    key =  G_wait_key() ; // pause so user can see results
 
    //   G_save_image_to_file("demo.xwd") ;
-   G_save_to_bmp_file("demo.bmp") ;
+   G_save_to_bmp_file("fall-plant.bmp") ;
 }
 
 void rotate(double a) {
@@ -131,7 +131,10 @@ void draw(char * str) {
             pop(stack);
          }
          ++i;
-   
+      // char fname[100];
+      // sprintf(fname, "./directory/plant/plant%04d.bmp", i);
+      // G_save_to_bmp_file(fname);
+
       //    for (int i = 0; i < 500000; ++i) {
       //       if (i % 100000000 == 0)    {
       //           G_display_image();
