@@ -1,1 +1,1 @@
-ffmpeg -framerate 40 -i img%04d.bmp output.mp4
+ffmpeg -framerate 50 -i img%04d.bmp output.mp4
