@@ -36,14 +36,15 @@ complex check (complex c) {
     return 0;
 }
 
-complex julia_check (complex z, complex c) {
+int julia_check (complex z, complex c) {
     // return a complex number if diverge - return 0 if converge
     // printf("Entered check function with "); prcmx("%20.16lf",c) ; printf("\n") ;
     
     for (int i = 0; i < 100; ++i) {
         if (cabs(z) > 2)
             // { printf ("Diverge\n"); 
-            return cabs(z); 
+            // return cabs(z);
+            return i; 
         z = z*z + c;
     }
     // printf ("Converge\n");
@@ -111,15 +112,21 @@ void julia (double a, double b) {
     for (double a_sub = -2.0; a_sub < 2.0; a_sub += unit) {
         for (double b_sub = -2.0; b_sub < 2.0; b_sub += unit) {
             complex z = a_sub + b_sub*I;
-            complex result = julia_check(z, c);
+            int result = julia_check(z, c);
             if (result == 0) {
                 G_rgb(0,0,0);
             } else {
-                G_rgb(  
-                        1/creal(result), // + 0.6/cimag(result),
-                        2/creal(result), // + 0.3/cimag(result), 
-                        3/creal(result)  // + 0.1/cimag(result)
-                    );
+                double t = (double)result / 100.0; // Normalize iteration count
+                // Define the color gradient
+                double red = sin(5 * M_PI * t);
+                double green = sin(5 * M_PI * (t + 1.0 / 3.0));
+                double blue = sin(5 * M_PI * (t + 2.0 / 3.0));
+                G_rgb((red + 1.0) / 2.0, (green + 1.0) / 2.0, (blue + 1.0) / 2.0);
+                // G_rgb(  
+                //         1/creal(result), // + 0.6/cimag(result),
+                //         2/creal(result), // + 0.3/cimag(result), 
+                //         3/creal(result)  // + 0.1/cimag(result)
+                //     );
             } 
             G_point ((a_sub + 2.0)*Wsize/range, (b_sub + 2.0)*Wsize/range + Hsize/2);
         } 
@@ -183,26 +190,71 @@ void julia_set() {
         G_clear () ;
         
         printf("Point: %lf, %lf\n", point[0], point[1]);
+        
+    }
+}
+
+void julia_set_circle() {
+
+    Wsize = 400;
+    Hsize = Wsize * 2;
+
+    G_init_graphics (Wsize, Hsize) ;  // interactive graphics
+    // clear the screen in a given color
+    G_rgb (0, 0, 0) ; // black screen
+    G_clear () ;
+    
+    double point[2];
+    point[0] = 0;
+    point[1] = 0;
+    
+    for (int angle = 0; angle < 360; ++angle) {
+        point[0] = cos(angle*M_PI/180) * 0.75;
+        point[1] = sin(angle*M_PI/180) * 0.75;
+        julia(point[0], point[1]);
+        mandel(0.0, 0.0, 0);
+        // G_wait_click(point);
+        // point[0] = point[0] * 4.0 / Wsize - 2.0;
+        // point[1] = point[1] * 4.0 / Wsize - 2.0;
+        // G_rgb (0, 0, 0) ; // black screen
+        // G_clear () ;
+        
+        G_rgb(1,1,1);
+        G_fill_circle(point[0]*Wsize/4 + Wsize/2, point[1]*Wsize/4 + Wsize/2, 1);
+
+        printf("Point: %lf, %lf\n", point[0], point[1]);
+        for (int i = 0; i < 500000; ++i) {
+            if (i % 100000 == 0)    {
+                G_display_image();
+                usleep(100);
+            }
+        }
+        // char fname[100];
+        // sprintf(fname, "./directory/plant/plant%04d.bmp", i);
+        // G_save_to_bmp_file(fname);
+
+        G_rgb (0, 0, 0) ; // black screen
+        G_clear () ;
     }
 }
 
 int main () {
 
-    G_init_graphics (Wsize, Wsize) ;  // interactive graphics
+    // G_init_graphics (Wsize, Wsize) ;  // interactive graphics
     // clear the screen in a given color
-    G_rgb (0, 0, 0) ; // black screen
-    G_clear () ;
+    // G_rgb (0, 0, 0) ; // black screen
+    // G_clear () ;
 
     // mandel_set();
     
     // julia_set();
 
-
-    mandel_zoom(0.39, 0.35, 300);
+    julia_set_circle();
+    // mandel_zoom(0.39, 0.35, 300);
 
     // mandel(0.39, 0.35, 2);
 
-    G_wait_key();
+    // G_wait_key();
     return 0;
 
 }

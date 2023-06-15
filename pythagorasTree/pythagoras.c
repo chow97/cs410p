@@ -93,7 +93,6 @@ int main(){
     }
 
     while (1) {
-    //    G_wait_key();
        G_rgb(0,0,0);
        G_clear();
 
@@ -117,6 +116,7 @@ int main(){
                 usleep(100);
             }
         }
+        
 
     }   
     
