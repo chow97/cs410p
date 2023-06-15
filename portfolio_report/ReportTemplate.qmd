@@ -24,15 +24,26 @@ knitr::opts_chunk$set(echo = TRUE, fig.align="center")
 
 # Recursion - The Pythagoras Christmas Tree Fractal
 
-# L-System - Fall plant
+## Design Paradigm & Mathematical Description
+
+# L-System - Autumn Tree
+![Autumn Tree](fallPlant.bmp){height=6in}
+
+## Design Paradigm & Mathematical Description
+
 
 # IFS - Dragon
 
-# Complex number - Mandelbrot Zooming
+## Design Paradigm & Mathematical Description
+
+# Complex number - Mandelbrot Zoom
 
 ![[Mandelbrot](https://youtube.com/shorts/pGSL5jdFaMw?feature=share)](mandelKeep.jpg){height=6in}
 
 ## Design Paradigm & Mathematical Description
+asdfjafndafa
+asdlfkjaslfka
+asdlfkj
 
 # Julia Circle
 ![[JULIA](https://youtube.com/shorts/ZpFwYT4oCPU?feature=share)](juliaKeep.jpg){height=6in}
