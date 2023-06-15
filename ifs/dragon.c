@@ -38,7 +38,6 @@ void translate(double tfx, double tfy) {
 
 void rule1() {
     transformation(1.0/2.0,-1.0/2.0,1.0/2.0,1.0/2.0, 0,0);
-    // scale(0.382,0.382);
 }
 
 void rule2() {
@@ -59,7 +58,8 @@ void dragon(int c){
             rule2();
         }
 
-        G_rgb(x/c,y/c,1-1/c);
+        // G_rgb(x/c,y/c,1-1/c);
+        G_rgb(x-2/c,y+2/c,y/c);
         // G_point(x*400+200,y*400+100);
         // G_point(200*x+200+c,200*y+200+c);
         G_point((200*x+200),(200*y+200));

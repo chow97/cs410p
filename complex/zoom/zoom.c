@@ -70,7 +70,9 @@ int main () {
     G_rgb (0, 0, 0) ; // black screen
     G_clear () ;
 
-    mandel_zoom(-0.730000, 0.280000, 800);
+    // mandel_zoom(-0.730000, 0.280000, 800);
+
+    mandel_zoom(-0.743643135, 0.131825963 , 1000);
     return 0;
 
 }
