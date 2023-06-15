@@ -75,7 +75,7 @@ int main() {
 
     
     G_init_graphics(sheight, swidth);
-    G_rgb(0, 0, 0);  // Set color to green
+    G_rgb(0, 0, 0); 
     // G_rgb (0.8, 0.8, 0.8);
     G_clear();
 
