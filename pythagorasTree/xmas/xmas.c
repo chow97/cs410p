@@ -7,11 +7,11 @@ typedef struct {
 void tree (point p1, point p2, int level){
     point p3, p4, p5;    
 
-    p4.x = p1.x - (p2.y -  p1.y);
-    p4.y = p1.y - (p1.x -  p2.x);
-	
     p3.x = p2.x - (p2.y -  p1.y);
     p3.y = p2.y - (p1.x -  p2.x);
+
+    p4.x = p1.x - (p2.y -  p1.y);
+    p4.y = p1.y - (p1.x -  p2.x);
 	
     p5.x = p3.x +  ( p1.x - p2.x - (p2.y -  p1.y) ) / 2;
     p5.y = p3.y -  ( p1.x - p2.x +  p2.y -  p1.y  ) / 2;
@@ -20,9 +20,9 @@ void tree (point p1, point p2, int level){
 	G_rgb(drand48(), drand48(), drand48());
 		
 	G_line(p1.x,p1.y,p2.x,p2.y);
-	G_line(p3.x,p3.y,p2.x,p2.y);
+	G_line(p2.x,p2.y,p3.x,p3.y);
 	G_line(p3.x,p3.y,p4.x,p4.y);
-	G_line(p1.x,p1.y,p4.x,p4.y);
+	G_line(p4.x,p4.y,p1.x,p1.y);
 	
 	tree(p4,p5,level-1);
 	tree(p5,p3,level-1);
@@ -68,24 +68,28 @@ int main(){
     G_rgb(0,0,0);
     G_clear();
 
+    // parameters for tree 1
     point p1, p2;
     p1.x = swidth *3.6/8;
     p1.y = sheight/10;
     p2.x = swidth - p1.x;
     p2.y = p1.y;
-    
+
+    // parameters for tree 2
     point p3, p4;
     p3.x = swidth *3.7/8;
     p3.y = p1.y + 200;
     p4.x = swidth - p3.x;
     p4.y = p3.y;
     
+    // parameters for tree 3
     point p5, p6;
     p5.x = swidth *3.8/8;
     p5.y = p1.y + 400;
     p6.x = swidth - p5.x;
     p6.y = p5.y;
 
+    // parameters for tree 4
     point p7, p8;
     p7.x = swidth *3.9/8;
     p7.y = p1.y + 550;
@@ -114,18 +118,19 @@ int main(){
        tree_trunk(p1, p2);
        
        double star_size = 40.0;
-        star (swidth/2, p7.y + star_size * 3, star_size);
+       star (swidth/2, p7.y + star_size * 3, star_size);
 
        for (int i = 0; i < 1000; ++i) {
             G_rgb(1,1,1);
     	    G_fill_circle(x[i], y[i], 2);
        }
 
-       // 
+       // snow falling down 2 pixels each frame
        for (int i = 0; i < 1000; ++i) {
             y[i] -= 2;
        }
 
+        // drawing the ground that is fading from black to white
         G_rgb((double)i/frames, (double)i/frames, (double)i/frames);
         // G_rgb(1,1,1);
         G_fill_rectangle(0.0, 0.0, swidth, p1.y);
@@ -138,16 +143,11 @@ int main(){
             }
         }
 
-       
-
+        // saving a bmp file for this frame
         char fname[100];
         sprintf(fname, "./xmas%04d.bmp", i);
         G_save_to_bmp_file(fname); 
 
     }   
-    
-    // G_wait_key();
-    // G_save_to_bmp_file("xmas_tree.bmp");
-    
     return 0;
 }
