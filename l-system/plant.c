@@ -41,12 +41,11 @@ int main()
    strleng = strlen(str);
 
    // if you want to use external file, comment out the line above and uncomment the line below:
-//   scanf("%s", str); 
+   //   scanf("%s", str); 
  
    G_init_graphics (Wsize,Wsize) ;  // interactive graphics
    // clear the screen in a given color
-   // G_rgb (1, 1, 1) ; // white
-   G_rgb (0, 0, 0) ; // black
+    G_rgb (0, 0, 0) ; // black
    G_clear () ;
    
    //===============================================
@@ -54,28 +53,10 @@ int main()
    
    draw(str);
    
-   // for (int i = 0; i < strleng; ++i) {
-   //    G_rgb (0, 0, 0) ; // black
-   //    G_clear () ;
-   //    double leaf_shade = (0.1 + i) / strleng;
-   //    red_leaf += leaf_shade;
-   //    green_leaf -= leaf_shade;
-   //    draw(str);
-   //          for (int i = 0; i < 500000; ++i) {
-   //          if (i % 100000 == 0)    {
-   //              G_display_image();
-   //              usleep(100);
-   //          }
-   //      }
-   // }
 
-  
-
-   int key ;   
-   key =  G_wait_key() ; // pause so user can see results
-
-   //   G_save_image_to_file("demo.xwd") ;
    G_save_to_bmp_file("fall-plant.bmp") ;
+
+   return 0;
 }
 
 void rotate(double a) {
@@ -131,16 +112,5 @@ void draw(char * str) {
             pop(stack);
          }
          ++i;
-         
-      char fname[100];
-      sprintf(fname, "./directory/plant/plant%04d.bmp", i);
-      G_save_to_bmp_file(fname);
-
-      //    for (int i = 0; i < 500000; ++i) {
-      //       if (i % 100000000 == 0)    {
-      //           G_display_image();
-      //           usleep(100);
-      //       }
-      //   }
       }	
 }
