@@ -26,15 +26,6 @@ void transformation(double a, double b, double c, double d, double e, double f){
     x = newx;
     y = newy;
 }
-void scale(double sfx, double sfy) {
-    x *= sfx;
-    y *= sfy;
-}
-
-void translate(double tfx, double tfy) {
-    x += tfx;
-    y += tfy;
-}
 
 void rule1() {
     transformation(1.0/2.0,-1.0/2.0,1.0/2.0,1.0/2.0, 0,0);
@@ -49,7 +40,6 @@ void dragon(int c){
     int ITER = 10000000;
 
     for (int i = 0; i < ITER; ++i) {
-        // Gi_rgb(13, 68, 104); 
         double n = drand48();
         if (n < 1.0/2.0) {
             rule1();
@@ -57,9 +47,14 @@ void dragon(int c){
         else{
             rule2();
         }
-
+        double t = (double)c / 100.0; // Normalize iteration count
+        // Define the color gradient
+        double red = sin(2 * M_PI * t);
+        double green = sin(2 * M_PI * (t + 1.0 / 3.0));
+        double blue = sin(2 * M_PI * (t + 2.0 / 3.0));
+        G_rgb((red + 1.0) / 2.0, (green + 1.0) / 2.0, (blue + 1.0) / 2.0);
         // G_rgb(x/c,y/c,1-1/c);
-        G_rgb(x-2/c,y+2/c,y/c);
+        // G_rgb(x+5/c,y+5/c,x+y/c);
         // G_point(x*400+200,y*400+100);
         // G_point(200*x+200+c,200*y+200+c);
         G_point((200*x+200),(200*y+200));

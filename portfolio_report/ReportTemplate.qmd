@@ -23,6 +23,7 @@ knitr::opts_chunk$set(echo = TRUE, fig.align="center")
 ```
 
 # Recursion - The Pythagoras Christmas Tree Fractal
+![[Christmas Tree](https://youtube.com/shorts/pBIVdsYEjq8?feature=share)](xmasKeep.bmp){height=6in}
 
 ## Design Paradigm & Mathematical Description
 
@@ -34,7 +35,9 @@ knitr::opts_chunk$set(echo = TRUE, fig.align="center")
 
 # IFS - Dragon
 
+
 ## Design Paradigm & Mathematical Description
+
 
 # Complex number - Mandelbrot Zoom
 
@@ -46,7 +49,7 @@ asdlfkjaslfka
 asdlfkj
 
 # Julia Circle
-![[JULIA](https://youtube.com/shorts/ZpFwYT4oCPU?feature=share)](juliaKeep.jpg){height=6in}
+![[Julia Circle](https://youtube.com/shorts/ZpFwYT4oCPU?feature=share)](juliaKeep.jpg){height=6in}
 
 
 
@@ -71,11 +74,279 @@ We used trigonometric functions (cosine and sine) to calculate the x and y coord
 
 
 # Appendix
-## References
+## References:
 
 Include all bibliographical references used here.  See [this link](https://quarto.org/docs/get-started/authoring/rstudio.html#citations) to learn about adding references to the document.
 
-## Mandelbrot Zoom
+\pagebreak
+
+## Christmas Tree Code:
+```{c, eval=FALSE}
+#include "FPToolkit.c"
+
+typedef struct {
+    double x,y;
+} point;
+
+void tree (point p1, point p2, int level){
+    point p3, p4, p5;    
+
+    p4.x = p1.x - (p2.y -  p1.y);
+    p4.y = p1.y - (p1.x -  p2.x);
+	
+    p3.x = p2.x - (p2.y -  p1.y);
+    p3.y = p2.y - (p1.x -  p2.x);
+	
+    p5.x = p3.x +  ( p1.x - p2.x - (p2.y -  p1.y) ) / 2;
+    p5.y = p3.y -  ( p1.x - p2.x +  p2.y -  p1.y  ) / 2;
+	 
+    if(level > 0){
+	G_rgb(drand48(), drand48(), drand48());
+		
+	G_line(p1.x,p1.y,p2.x,p2.y);
+	G_line(p3.x,p3.y,p2.x,p2.y);
+	G_line(p3.x,p3.y,p4.x,p4.y);
+	G_line(p1.x,p1.y,p4.x,p4.y);
+	
+	tree(p4,p5,level-1);
+	tree(p5,p3,level-1);
+    }
+}
+
+void tree_trunk(point p1, point p2) {
+    int height = p2.x - p1.x;
+    for (int i = 0; i + 10 < height; i += 10) {
+           G_rgb (1, 1, 1);
+        for (int white = 0; white < 5; ++ white) {
+           int y = p1.y + i + white;
+           G_line(p1.x, y, p2.x, y);
+        }
+           G_rgb (1, 0, 0);
+        for (int red = 5; red < 10; ++ red) {
+           int y = p1.y + i + red;
+           G_line(p1.x, y, p2.x, y);
+        }
+    }
+}
+
+void star (double x, double y, double size) {
+
+    G_rgb(0.94,0.77,0.38);
+
+    int a = 30;  // angle
+    double c = cos(a*M_PI/180) * size;
+    double s = sin(a*M_PI/180) * size;
+
+    G_fill_triangle(c + x, s + y, -c + x, s + y, x, y - size);
+    G_fill_triangle(c + x, -s + y, -c + x, -s + y, x, y + size);
+}
+
+int main(){
+    int swidth, sheight;
+    swidth = 800,  sheight = 800;
+    
+    G_init_graphics(swidth, sheight);
+    
+    G_rgb(0,0,0);
+    G_clear();
+
+    point p1, p2;
+    p1.x = swidth *3.6/8;
+    p1.y = sheight/10;
+    p2.x = swidth - p1.x;
+    p2.y = p1.y;
+    
+    point p3, p4;
+    p3.x = swidth *3.7/8;
+    p3.y = p1.y + 200;
+    p4.x = swidth - p3.x;
+    p4.y = p3.y;
+    
+    point p5, p6;
+    p5.x = swidth *3.8/8;
+    p5.y = p1.y + 400;
+    p6.x = swidth - p5.x;
+    p6.y = p5.y;
+
+    point p7, p8;
+    p7.x = swidth *3.9/8;
+    p7.y = p1.y + 550;
+    p8.x = swidth - p7.x;
+    p8.y = p7.y;
+
+    // coordinates for snow
+    double x[1000];
+    double y[1000];
+
+    // giving snow random initial coordinates but above the screen
+    for (int i = 0; i < 1000; ++i) {
+        x[i] = swidth * drand48();
+        y[i] = sheight * 6 * drand48() + sheight;
+    }
+
+    int frames = 1000;
+    for (int i = 1; i < frames; ++i) {
+       G_rgb(0,0,0);
+       G_clear();
+
+       tree(p1, p2, 12);
+       tree(p3, p4, 12);
+       tree(p5, p6, 12);
+       tree(p7, p8, 12);
+       tree_trunk(p1, p2);
+       
+       double star_size = 40.0;
+        star (swidth/2, p7.y + star_size * 3, star_size);
+
+       for (int i = 0; i < 1000; ++i) {
+            G_rgb(1,1,1);
+    	    G_fill_circle(x[i], y[i], 2);
+       }
+
+       // 
+       for (int i = 0; i < 1000; ++i) {
+            y[i] -= 2;
+       }
+
+        G_rgb((double)i/frames, (double)i/frames, (double)i/frames);
+        // G_rgb(1,1,1);
+        G_fill_rectangle(0.0, 0.0, swidth, p1.y);
+
+       for (int i = 0; i < 500000; ++i) {
+            if (i % 10000 == 0)    {
+                G_display_image();
+                usleep(100);
+            }
+        }
+    }   
+    return 0;
+}
+```
+
+\pagebreak
+
+## Autumn Tree Code:
+```{c,eval=FALSE}
+#include "FPToolkit.c"
+#include "string_builder.c"
+#include "stack.c"
+
+int strleng = 2000000;
+// set angle to move
+double angle = 22.5;
+
+double angle_current = 90.0;
+
+const int Wsize = 800;
+// unit to draw
+double length = 0.5;
+double x_value, y_value;
+// start drawing from this point
+double x_current = Wsize/2;
+double y_current = 50.0;
+double y_max = 0.0;
+
+void rotate(double a);
+void step();
+void values_reset();
+
+void positive_rot() { angle_current += angle; };
+void negative_rot() { angle_current -= angle; };
+
+void draw(char * str);
+
+double red_plant = 0.73;
+double green_plant = 0.39;
+double blue_plant = 0.05;
+
+double red_leaf = 0.64;
+double green_leaf = 0.71;
+double blue_leaf = 0.17;
+
+int main()
+{
+   char str [strleng];
+   string_builder_level(str, 9);
+   strleng = strlen(str);
+
+   // if you want to use external file, comment out the line above and uncomment the line below:
+//   scanf("%s", str); 
+ 
+   G_init_graphics (Wsize,Wsize) ;  // interactive graphics
+   // clear the screen in a given color
+   G_rgb (0, 0, 0) ; // black
+   G_clear () ;
+   
+   //===============================================
+
+   draw(str);
+
+   int key ;   
+   key =  G_wait_key() ; // pause so user can see results
+
+   G_save_to_bmp_file("fall-plant.bmp") ;
+}
+
+void rotate(double a) {
+   x_value = length*cos(a*M_PI/180);
+   y_value = length*sin(a*M_PI/180);
+}
+
+void step() {
+   values_reset();
+   rotate(angle_current);
+ 
+   G_rgb(red_plant,green_plant,blue_plant) ;
+   
+   G_line (x_current, y_current,  x_current+ x_value, y_current + y_value);
+   x_current += x_value;
+   y_current += y_value;
+
+   values_reset();
+}
+
+void values_reset() {
+   x_value = length;
+   y_value = 0;
+}
+
+void draw(char * str) {
+   struct stack* stack = createStack(100);
+      int i = 0;
+      while (str[i] != '\0' && i < strleng) {
+         if (str[i] >= 'A' && str[i] <= 'Z') step();
+         else if (str[i] == '+') positive_rot();
+         else if (str[i] == '-') negative_rot();
+         else if (str[i] == '[') {
+            struct bracket point;
+            point.angle = angle_current;
+            point.x = x_current;
+            point.y = y_current;
+            push(stack, point);
+         }
+         else if (str[i] == ']') {
+            double leaf_shade = (0.1 + i) / strleng / 30000;
+            red_leaf += leaf_shade/2.5;
+            green_leaf -= leaf_shade/2;
+            blue_leaf -= leaf_shade;
+            G_rgb(red_leaf, green_leaf, blue_leaf);
+            G_fill_circle(x_current,y_current,length) ;
+            struct bracket point;
+            point = peek(stack);
+            angle_current = point.angle;
+            x_current = point.x;
+            y_current = point.y;
+            pop(stack);
+         }
+         ++i;
+      }	
+}
+
+```
+
+\pagebreak
+
+## Mandelbrot Zoom Code:
 ```{c, eval = FALSE}
 #include <stdio.h>
 #include <complex.h>
