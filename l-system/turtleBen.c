@@ -37,9 +37,9 @@ int margin = 50;
 int main()
 {
    char str [strleng];
-   // string_builder(str);
+   string_builder(str);
    // if you want to use external file, comment out the line above and uncomment the line below:
-   scanf("%s", str); 
+   // scanf("%s", str); 
 
    int    swidth, sheight ;
 
@@ -72,7 +72,7 @@ int main()
    key =  G_wait_key() ; // pause so user can see results
 
    //   G_save_image_to_file("demo.xwd") ;
-   G_save_to_bmp_file("demo.bmp") ;
+   // G_save_to_bmp_file("demo.bmp") ;
 }
 
 double auto_placer(char str []) {

@@ -131,9 +131,10 @@ void draw(char * str) {
             pop(stack);
          }
          ++i;
-      // char fname[100];
-      // sprintf(fname, "./directory/plant/plant%04d.bmp", i);
-      // G_save_to_bmp_file(fname);
+         
+      char fname[100];
+      sprintf(fname, "./directory/plant/plant%04d.bmp", i);
+      G_save_to_bmp_file(fname);
 
       //    for (int i = 0; i < 500000; ++i) {
       //       if (i % 100000000 == 0)    {
