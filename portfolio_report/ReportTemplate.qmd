@@ -91,11 +91,11 @@ typedef struct {
 void tree (point p1, point p2, int level){
     point p3, p4, p5;    
 
-    p4.x = p1.x - (p2.y -  p1.y);
-    p4.y = p1.y - (p1.x -  p2.x);
-	
     p3.x = p2.x - (p2.y -  p1.y);
     p3.y = p2.y - (p1.x -  p2.x);
+
+    p4.x = p1.x - (p2.y -  p1.y);
+    p4.y = p1.y - (p1.x -  p2.x);
 	
     p5.x = p3.x +  ( p1.x - p2.x - (p2.y -  p1.y) ) / 2;
     p5.y = p3.y -  ( p1.x - p2.x +  p2.y -  p1.y  ) / 2;
@@ -104,9 +104,9 @@ void tree (point p1, point p2, int level){
 	G_rgb(drand48(), drand48(), drand48());
 		
 	G_line(p1.x,p1.y,p2.x,p2.y);
-	G_line(p3.x,p3.y,p2.x,p2.y);
+	G_line(p2.x,p2.y,p3.x,p3.y);
 	G_line(p3.x,p3.y,p4.x,p4.y);
-	G_line(p1.x,p1.y,p4.x,p4.y);
+	G_line(p4.x,p4.y,p1.x,p1.y);
 	
 	tree(p4,p5,level-1);
 	tree(p5,p3,level-1);
@@ -125,6 +125,7 @@ void tree_trunk(point p1, point p2) {
         for (int red = 5; red < 10; ++ red) {
            int y = p1.y + i + red;
            G_line(p1.x, y, p2.x, y);
+        
         }
     }
 }
@@ -139,6 +140,7 @@ void star (double x, double y, double size) {
 
     G_fill_triangle(c + x, s + y, -c + x, s + y, x, y - size);
     G_fill_triangle(c + x, -s + y, -c + x, -s + y, x, y + size);
+
 }
 
 int main(){
@@ -150,24 +152,28 @@ int main(){
     G_rgb(0,0,0);
     G_clear();
 
+    // parameters for tree 1
     point p1, p2;
     p1.x = swidth *3.6/8;
     p1.y = sheight/10;
     p2.x = swidth - p1.x;
     p2.y = p1.y;
-    
+
+    // parameters for tree 2
     point p3, p4;
     p3.x = swidth *3.7/8;
     p3.y = p1.y + 200;
     p4.x = swidth - p3.x;
     p4.y = p3.y;
     
+    // parameters for tree 3
     point p5, p6;
     p5.x = swidth *3.8/8;
     p5.y = p1.y + 400;
     p6.x = swidth - p5.x;
     p6.y = p5.y;
 
+    // parameters for tree 4
     point p7, p8;
     p7.x = swidth *3.9/8;
     p7.y = p1.y + 550;
@@ -196,21 +202,23 @@ int main(){
        tree_trunk(p1, p2);
        
        double star_size = 40.0;
-        star (swidth/2, p7.y + star_size * 3, star_size);
+       star (swidth/2, p7.y + star_size * 3, star_size);
 
        for (int i = 0; i < 1000; ++i) {
             G_rgb(1,1,1);
     	    G_fill_circle(x[i], y[i], 2);
        }
 
-       // 
+       // snow falling down 2 pixels each frame
        for (int i = 0; i < 1000; ++i) {
             y[i] -= 2;
        }
 
+        // drawing the ground that is fading from black to white
         G_rgb((double)i/frames, (double)i/frames, (double)i/frames);
         // G_rgb(1,1,1);
         G_fill_rectangle(0.0, 0.0, swidth, p1.y);
+        
 
        for (int i = 0; i < 500000; ++i) {
             if (i % 10000 == 0)    {
@@ -218,6 +226,12 @@ int main(){
                 usleep(100);
             }
         }
+
+        // saving a bmp file for this frame
+        char fname[100];
+        sprintf(fname, "./xmas%04d.bmp", i);
+        G_save_to_bmp_file(fname); 
+
     }   
     return 0;
 }
@@ -227,6 +241,7 @@ int main(){
 
 ## Autumn Tree Code:
 ```{c,eval=FALSE}
+plant.c:
 #include "FPToolkit.c"
 #include "string_builder.c"
 #include "stack.c"
@@ -270,21 +285,22 @@ int main()
    strleng = strlen(str);
 
    // if you want to use external file, comment out the line above and uncomment the line below:
-//   scanf("%s", str); 
+   //   scanf("%s", str); 
  
    G_init_graphics (Wsize,Wsize) ;  // interactive graphics
    // clear the screen in a given color
-   G_rgb (0, 0, 0) ; // black
+    G_rgb (0, 0, 0) ; // black
    G_clear () ;
    
    //===============================================
 
+   
    draw(str);
-
-   int key ;   
-   key =  G_wait_key() ; // pause so user can see results
+   
 
    G_save_to_bmp_file("fall-plant.bmp") ;
+
+   return 0;
 }
 
 void rotate(double a) {
@@ -309,6 +325,7 @@ void values_reset() {
    x_value = length;
    y_value = 0;
 }
+
 
 void draw(char * str) {
    struct stack* stack = createStack(100);
@@ -342,6 +359,148 @@ void draw(char * str) {
       }	
 }
 
+
+string_builder.c :
+
+char a [19] = "F-[[A]+A]+F[+FA]-A";
+char f [3] = "FF";
+
+#include <string.h>
+#include <stdio.h>
+
+
+int replace(char str [], int i);
+
+int string_builder (char str []) {
+
+	// setting Axiom
+   strcpy(str, "A");
+
+   int level;
+   printf("Please enter level: ");
+   scanf("%d", &level);
+
+   for (int i = 1; i <= level; ++i) {
+      int k = 0;
+      while (k < strlen(str)) {
+	if (str[k] != '-' && str[k] != '+' && str[k] != '[' && str[k] != ']') 
+	   k += replace(str, k);
+	else 
+	   ++k;
+      }
+      printf("Level %d: %s \n", i, str);
+   }   	
+   return 0;
+};
+
+int string_builder_level (char str [], int level) {
+
+   strcpy(str, "A");
+
+   for (int i = 1; i <= level; ++i) {
+      int k = 0;
+      while (k < strlen(str)) {
+	if (str[k] != '-' && str[k] != '+' && str[k] != '[' && str[k] != ']') 
+	   k += replace(str, k);
+	else 
+	   ++k;
+      }
+      printf("Level %d: %s \n", i, str);
+   }   	
+   return 0;
+};
+
+int replace(char str [], int i) {
+	char temp [strlen(str) + 10];
+	int substr_len;
+	if (str[i] == 'A') {
+	   strcpy(temp, a);
+	   substr_len = strlen(a);
+	} 
+	else {
+	   strcpy(temp, f);
+	   substr_len = strlen(f);
+	}
+	
+	strcat(temp, &str[i+1]);
+	strcpy(&str[i], temp);
+	
+	return substr_len;
+};
+
+
+stack.c : 
+/*
+The init_stack() function initializes a stack with the given size.
+
+The push() function pushes the given value onto the stack.
+
+The pop() function pops the top element off the stack and returns its value.
+
+The free_stack() function frees the memory allocated for the stack.
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the bracket struct
+struct bracket {
+    double angle;
+    double x;
+    double y;
+};
+
+// Define the stack struct
+struct stack {
+    int top;
+    int capacity;
+    struct bracket* array;
+};
+
+// Create a new stack
+struct stack* createStack(int capacity) {
+    struct stack* stack = (struct stack*)malloc(sizeof(struct stack));
+    stack->capacity = capacity;
+    stack->top = -1;
+    stack->array = (struct bracket*)malloc(stack->capacity * sizeof(struct bracket));
+    return stack;
+}
+
+// Check if the stack is empty
+int isEmpty(struct stack* stack) {
+    return stack->top == -1;
+}
+
+// Check if the stack is full
+int isFull(struct stack* stack) {
+    return stack->top == stack->capacity - 1;
+}
+
+// Push an element onto the stack
+void push(struct stack* stack, struct bracket item) {
+    if (isFull(stack)) {
+        printf("Error: Stack overflow\n");
+        return;
+    }
+    stack->array[++stack->top] = item;
+}
+
+// Pop an element off the stack
+struct bracket pop(struct stack* stack) {
+    if (isEmpty(stack)) {
+        printf("Error: Stack underflow\n");
+        exit(EXIT_FAILURE);
+    }
+    return stack->array[stack->top--];
+}
+
+// Get the top element of the stack without popping it
+struct bracket peek(struct stack* stack) {
+    if (isEmpty(stack)) {
+        printf("Error: Stack underflow\n");
+        exit(EXIT_FAILURE);
+    }
+    return stack->array[stack->top];
+}
 ```
 
 \pagebreak
@@ -355,76 +514,138 @@ void draw(char * str) {
 int Wsize = 800;
 int Hsize = 800;
 
-int check (complex c) {
+void prcmx (char *control, complex c)
+//print complex number
+{
+  double a,b ;
+  a = creal(c) ;
+  b = cimag(c) ;
+
+  printf(control,a) ;
+  if (b >= 0) {
+    printf("+") ;
+  } else {
+    printf("-") ;
+  }
+  printf(control,fabs(b)) ;  
+  printf("I") ;
+}
+
+complex check (complex c) {
     // return a complex if diverge - return 0 if converge
     complex z = 0 + 0*I;
     for (int i = 0; i < 100; ++i) {
         z = z*z + c;
         if (cabs(z) > 2)
-            // { printf ("Diverge\n"); 
-            return i; 
+            return cabs(z); 
     }
-    // printf ("Converge\n");
     return 0;
 }
 
-void mandel_zoom (double a, double b, int times) {
-    double range = 4.0;
-    for (int i = 0; i < times; ++i) {
+int julia_check (complex z, complex c) {
+    // return a complex number if diverge - return 0 if converge
+    for (int i = 0; i < 100; ++i) {
+        if (cabs(z) > 2)
+            return i; 
+        z = z*z + c;
+    }
+    return 0;
+}
+
+void mandel (double a, double b, int click) {
+    double range = 4.0 / pow(2, click);
     double unit = range / Wsize;
+
     // a is the real part, b is the coefficient
-        for (double a_sub = a - range/2; a_sub < a + range/2; a_sub += unit) {
-            for (double b_sub = b - range/2; b_sub < b + range/2; b_sub += unit) {
-                int i = check(a_sub + b_sub*I);
-                if (i == 0) {
-                    G_rgb(0,0,0);
-                } else {
-                    double t = (double)i / 100.0; // Normalize iteration count
-                    // Define the color gradient
-                    double red = sin(5 * M_PI * t);
-                    double green = sin(5 * M_PI * (t + 1.0 / 3.0));
-                    double blue = sin(5 * M_PI * (t + 2.0 / 3.0));
-                    G_rgb((red + 1.0) / 2.0, (green + 1.0) / 2.0, (blue + 1.0) / 2.0);
-                } 
-                G_point((a_sub - a + range/2)*Wsize/range, (b_sub - b + range/2)*Wsize/range);
+
+    for (double a_sub = a - range/2; a_sub < a + range/2; a_sub += unit) {
+        for (double b_sub = b - range/2; b_sub < b + range/2; b_sub += unit) {
+            complex i = check(a_sub + b_sub*I);
+            if (i == 0) {
+                G_rgb(0,0,0);
+            } else {
+                G_rgb(0.9/creal(i),0.7/creal(i), 0.6/creal(i) );
             } 
-        }
-            // Change this number for zoom factor
-            range -= 0.01*range;
-            // uncomment/comment this for live view of code
-            for (int i = 0; i < 500000; ++i) {
-                if (i % 100000 == 0)    {
-                    G_display_image();
-                    usleep(100);
-                }
-            }
-
-            // uncomment/comment this for making movie bmp
-            // char fname[400];
-            // sprintf(fname, "img%04d.bmp", i);
-            // G_save_to_bmp_file(fname);
-
+                G_point ((a_sub - a + range/2)*Wsize/range, (b_sub - b + range/2)*Wsize/range);
+        } 
     }
 
+}
+
+
+void julia (double a, double b) {
+    double range = 4.0;
+    double unit = range / Wsize;
+
+    // a is the real part, b is the coefficient
+    complex c = a + b*I;
+
+    for (double a_sub = -2.0; a_sub < 2.0; a_sub += unit) {
+        for (double b_sub = -2.0; b_sub < 2.0; b_sub += unit) {
+            complex z = a_sub + b_sub*I;
+            int result = julia_check(z, c);
+            if (result == 0) {
+                G_rgb(0,0,0);
+            } else {
+                double t = (double)result / 100.0; // Normalize iteration count
+                // Define the color gradient
+                double red = sin(5 * M_PI * t);
+                double green = sin(5 * M_PI * (t + 1.0 / 3.0));
+                double blue = sin(5 * M_PI * (t + 2.0 / 3.0));
+                G_rgb((red + 1.0) / 2.0, (green + 1.0) / 2.0, (blue + 1.0) / 2.0); 
+            } 
+            G_point ((a_sub + 2.0)*Wsize/range, (b_sub + 2.0)*Wsize/range + Hsize/2);
+        } 
+    }
+
+}
+
+
+void julia_set_circle() {
+
+    Wsize = 400;
+    Hsize = Wsize * 2;
+
+    G_init_graphics (Wsize, Hsize) ;  // interactive graphics
+    // clear the screen in a given color
+    G_rgb (0, 0, 0) ; // black screen
+    G_clear () ;
+    
+    double point[2];
+    point[0] = 0;
+    point[1] = 0;
+    
+    for (int angle = 0; angle < 360; ++angle) {
+        point[0] = cos(angle*M_PI/180) * 0.75;
+        point[1] = sin(angle*M_PI/180) * 0.75;
+        julia(point[0], point[1]);
+        mandel(0.0, 0.0, 0);
+        
+        G_rgb(1,1,1);
+        G_fill_circle(point[0]*Wsize/4 + Wsize/2, point[1]*Wsize/4 + Wsize/2, 1);
+
+        // printf("Point: %lf, %lf\n", point[0], point[1]);
+        // for (int i = 0; i < 500000; ++i) {
+        //     if (i % 100000 == 0)    {
+        //         G_display_image();
+        //         usleep(100);
+        //     }
+        // }
+        char fname[100];
+        sprintf(fname, "./julia%04d.bmp", angle);
+        G_save_to_bmp_file(fname);
+
+        G_rgb (0, 0, 0) ; // black screen
+        G_clear () ;
+    }
 }
 
 int main () {
 
-    G_init_graphics (Wsize, Wsize) ;  // interactive graphics
-    // clear the screen in a given color
-    G_rgb (0, 0, 0) ; // black screen
-    G_clear () ;
-
-    // set the desired coordinates to zoom into and the number of clicks on that point.
-    int click = 1000;
-    double zoomx, zoomy;
-    zoomx =-0.743643135;
-    zoomy = 0.131825963; 
-    mandel_zoom(zoomx, zoomy, click);
-
-    // mandel_zoom(-0.730000, 0.280000, 800);
+    julia_set_circle();
 
     return 0;
+
 }
 ```
 
